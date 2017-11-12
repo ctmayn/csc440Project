@@ -183,8 +183,6 @@ public class WolfHospital{
     }
 
     private static void operatorActions(Statement statement){
-
-
         while(true){
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
