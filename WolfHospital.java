@@ -165,7 +165,7 @@ public class WolfHospital{
 
     private static void logOn(Statement statement){
         System.out.println("Please Enter Staff ID: ");
-        String id = scanner.next();
+        int id = scanner.nextInt();
 
         //TODO check if is is in the staff info then check which title they have to give them certain actions
 
@@ -183,37 +183,247 @@ public class WolfHospital{
     }
 
     private static void operatorActions(Statement statement){
+        //Text here explaining options
         while(true){
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
                 return;
+            } else if(action.toLowerCase().equals("enter")){
+                String type = scanner.next();
+                if(type.toLowerCase().equals("patient")){
+                    
+                } else if(type.toLowerCase().equals("doctor")){
+                
+                } else if(type.toLowerCase().equals("nurse")){
+                    
+                } else if(type.toLowerCase().equals("operator")){
+                    
+                } else if(type.toLowerCase().equals("wards")){
+                    
+                } else if(type.toLowerCase().equals("bed")){
+                    
+                } else {
+                    System.out.println("Not a valid object to enter information about.");
+                    continue;
+                }
+            } else if(action.toLowerCase().equals("update")){
+                String type = scanner.next();
+                if(type.toLowerCase().equals("patient")){
+                    
+                } else if(type.toLowerCase().equals("doctor")){
+                
+                } else if(type.toLowerCase().equals("nurse")){
+                    
+                } else if(type.toLowerCase().equals("operator")){
+                    
+                } else if(type.toLowerCase().equals("wards")){
+                    
+                } else if(type.toLowerCase().equals("bed")){
+                    
+                } else {
+                    System.out.println("Not a valid object to update information about.");
+                    continue;
+                }
+            } else if(action.toLowerCase().equals("delete")){
+                String type = scanner.next();
+                if(type.toLowerCase().equals("patient")){
+                    
+                } else if(type.toLowerCase().equals("doctor")){
+                
+                } else if(type.toLowerCase().equals("nurse")){
+                    
+                } else if(type.toLowerCase().equals("operator")){
+                    
+                } else if(type.toLowerCase().equals("wards")){
+                    
+                } else if(type.toLowerCase().equals("bed")){
+                    
+                } else {
+                    System.out.println("Not a valid object to delete.");
+                    continue;
+                }
+            } else if(action.toLowerCase().equals("check-in")){
+                
+            } else if(action.toLowerCase().equals("check-out")){
+                
+            } else if(action.toLowerCase().equals("reserve")){
+                
+            } else if(action.toLowerCase().equals("release")){
+                
+            } else if(action.toLowerCase().equals("reports")){
+                String type = scanner.next();
+                if(type.toLowerCase().equals("history")){
+                    
+                } else if(type.toLowerCase().equals("wards")){
+                
+                } else if(type.toLowerCase().equals("ppm")){
+                    
+                } else if(type.toLowerCase().equals("wup")){
+                    
+                } else if(type.toLowerCase().equals("doctor")){
+                    
+                } else if(type.toLowerCase().equals("staff")){
+                    String staff = scanner.next();
+                    if(staff.toLowerCase().equals("doctor")){
+                    
+                    } else if(staff.toLowerCase().equals("specialist")){
+                        
+                    } else if(staff.toLowerCase().equals("nurse")){
+                        
+                    } else if(staff.toLowerCase().equals("operator")){
+                        
+                    } else {
+                        System.out.println("Not a staff member.");
+                        continue;
+                    }
+                } else {
+                    System.out.println("Not a valid report");
+                    continue;
+                }
+            } else {
+                System.out.println("Not a valid operator action");
+                continue;
             }
         }
     }
 
     private static void doctorActions(Statement statement){
+        //Text here explaining options
         while(true){
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
                 return;
+            } else if(action.toLowerCase().equals("treat")){
+                
+            } else if(action.toLowerCase().equals("recommend")){
+                
+            } else if(action.toLowerCase().equals("reports")){
+                String type = scanner.next();
+                if(type.toLowerCase().equals("history")){
+                    
+                } else if(type.toLowerCase().equals("wards")){
+                
+                } else if(type.toLowerCase().equals("ppm")){
+                    
+                } else if(type.toLowerCase().equals("wup")){
+                    
+                } else if(type.toLowerCase().equals("doctor")){
+                    
+                } else if(type.toLowerCase().equals("staff")){
+                    String staff = scanner.next();
+                    if(staff.toLowerCase().equals("doctor")){
+                    
+                    } else if(staff.toLowerCase().equals("specialist")){
+                        
+                    } else if(staff.toLowerCase().equals("nurse")){
+                        
+                    } else if(staff.toLowerCase().equals("operator")){
+                        
+                    } else {
+                        System.out.println("Not a staff member.");
+                        continue;
+                    }
+                } else {
+                    System.out.println("Not a valid report");
+                    continue;
+                }
+            } else {
+                System.out.println("Not a valid doctor action");
+                continue;
             }
         }
     }
 
     private static void specialistActions(Statement statement){
+        //Text here explaining options
         while(true){
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
                 return;
+            } else if(action.toLowerCase().equals("treat")){
+                
+            } else if(action.toLowerCase().equals("recommend")){
+                
+            } else if(action.toLowerCase().equals("test")){
+                
+            } else if(action.toLowerCase().equals("reports")){
+                String type = scanner.next();
+                if(type.toLowerCase().equals("history")){
+                    
+                } else if(type.toLowerCase().equals("wards")){
+                
+                } else if(type.toLowerCase().equals("ppm")){
+                    
+                } else if(type.toLowerCase().equals("wup")){
+                    
+                } else if(type.toLowerCase().equals("doctor")){
+                    
+                } else if(type.toLowerCase().equals("staff")){
+                    String staff = scanner.next();
+                    if(staff.toLowerCase().equals("doctor")){
+                    
+                    } else if(staff.toLowerCase().equals("specialist")){
+                        
+                    } else if(staff.toLowerCase().equals("nurse")){
+                        
+                    } else if(staff.toLowerCase().equals("operator")){
+                        
+                    } else {
+                        System.out.println("Not a staff member.");
+                        continue;
+                    }
+                } else {
+                    System.out.println("Not a valid report");
+                    continue;
+                }
+            } else {
+                System.out.println("Not a valid specialist action");
+                continue;
             }
         }
     }
 
     private static void nurseActions(Statement statement){
+        //Text here explaining options
         while(true){
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
                 return;
+            } else if(action.toLowerCase().equals("treat")){
+                
+            } else if(action.toLowerCase().equals("reports")){
+                String type = scanner.next();
+                if(type.toLowerCase().equals("history")){
+                    
+                } else if(type.toLowerCase().equals("wards")){
+                
+                } else if(type.toLowerCase().equals("ppm")){
+                    
+                } else if(type.toLowerCase().equals("wup")){
+                    
+                } else if(type.toLowerCase().equals("doctor")){
+                    
+                } else if(type.toLowerCase().equals("staff")){
+                    String staff = scanner.next();
+                    if(staff.toLowerCase().equals("doctor")){
+                    
+                    } else if(staff.toLowerCase().equals("specialist")){
+                        
+                    } else if(staff.toLowerCase().equals("nurse")){
+                        
+                    } else if(staff.toLowerCase().equals("operator")){
+                        
+                    } else {
+                        System.out.println("Not a staff member.");
+                        continue;
+                    }
+                } else {
+                    System.out.println("Not a valid report");
+                    continue;
+                }
+            } else {
+                System.out.println("Not a valid nurse action");
+                continue;
             }
         }
     }
