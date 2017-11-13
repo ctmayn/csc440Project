@@ -9,6 +9,10 @@ public class WolfHospital{
 
     private static Scanner scanner = null;
 
+    /**
+     * Starting point of the project sets up many of the objects needed in the program and
+     * calls the functions that cause behvaior of the program
+     */
     public static void main(String[] args){
         
         Connection connection = null;
@@ -24,7 +28,7 @@ public class WolfHospital{
 
         setupTables(statement);
 
-        logOn(statement);
+        logOn(statement, result);
 
         } catch(Throwable oops) {
             oops.printStackTrace();
@@ -37,24 +41,45 @@ public class WolfHospital{
         close(connection);
     }
 
+    /**
+     * Closes the connection for the project
+     *
+     * @param conn The connection
+     */
     static void close(Connection conn) {
         if(conn != null) {
             try { conn.close(); } catch(Throwable whatever) {}
         }
     }
 
+    /**
+     * Closes the statement object for the project
+     * 
+     * @param st The statement object
+     */
     static void close(Statement st) {
         if(st != null) {
             try { st.close(); } catch(Throwable whatever) {}
         }
     }
 
+    /**
+     * Closes the result set for the project
+     * 
+     * @param rs The result set
+     */
     static void close(ResultSet rs) {
         if(rs != null) {
             try { rs.close(); } catch(Throwable whatever) {}
         }
     }
 
+    /**
+     * Sets up the tables in the database as well as the sequences for the database.
+     * 
+     * @param statement Sends sql statements to the DBMS
+     * @throws SQLException
+     */
     private static void setupTables(Statement statement) throws SQLException{
         statement.executeUpdate("CREATE TABLE staff (" +
             "id INT PRIMARY KEY, "  +
@@ -172,7 +197,15 @@ public class WolfHospital{
             statement.executeUpdate("CREATE SEQUENCE office_visit_seq MINVALUE 0 START WITH 0;");
     }
 
-    private static void logOn(Statement statement){
+    /**
+     * Logs the staff in to the system.  They can log in in multiple ways.  They can input thier
+     * staff id to log in or can specify thier role. After they are logged in, they are then taken
+     * to their actions based off of thier role or ID.
+     * 
+     * @param statement Sends sql statements to the DBMS
+     * @param result Stores the results of SQL statements
+     */
+    private static void logOn(Statement statement, ResultSet result){
         System.out.println("Please Enter Staff ID or type ROLE to specify role: ");
         String input = scanner.next();
 
@@ -181,37 +214,46 @@ public class WolfHospital{
             System.out.println("Are you a DOCTOR, NURSE, SPECIALIST, or OPERATOR?");
             input = scanner.next();
             if(input.toLowerCase().equals("operator")){
-                operatorActions(statement);
+                operatorActions(statement, result);
             }else if(input.toLowerCase().equals("doctor")){
-                doctorActions(statement);
+                doctorActions(statement, result);
             }else if(input.toLowerCase().equals("specialist")){
-                specialistActions(statement);
+                specialistActions(statement, result);
             }else if(input.toLowerCase().equals("nurse")){
-                nurseActions(statement);                  
+                nurseActions(statement, result);                  
             } else {
                 System.out.println("That is not a valid role.  SPlease try again.");
-                logOn(statement);
+                logOn(statement, result);
             }
         }
 
         //TODO check if is is in the staff info then check which title they have to give them certain actions
 
         if(/*Operator*/true){
-            operatorActions(statement);
+            operatorActions(statement, result);
         }else if(/*Doctor*/true){
-            doctorActions(statement);
+            doctorActions(statement, result);
         }else if(/*Specialist*/true){
-            specialistActions(statement);
+            specialistActions(statement, result);
         }else if(/*Nurse*/true){
-            nurseActions(statement);                  
+            nurseActions(statement, result);                  
         } else {
             System.out.println("Your ID was not found. Please try again");
-            logOn(statement);
+            logOn(statement, result);
         }
     }
 
-    private static void operatorActions(Statement statement){
-        //Text here explaining options
+    /**
+     * This method is responsible for an operator's behavior. It will conintue to take requests
+     * from the operator until they decide to quit out. Operators can enter, update, and delete 
+     * staff and hospital information, check-in and check-out patients, reserve and release beds,
+     * and generate reports.
+     * 
+     * @param statement Sends sql statements to the DBMS 
+     * @param result Records the result of an SQL statement
+     */
+    private static void operatorActions(Statement statement, ResultSet result){
+        //Output here explaining options
         while(true){
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
@@ -315,8 +357,16 @@ public class WolfHospital{
         }
     }
 
-    private static void doctorActions(Statement statement){
-        //Text here explaining options
+    /**
+     * This method is responsible for a doctor's behavior. It will conintue to take requests
+     * from the doctor until they decide to quit out. Doctors can treat patients, recommend tests,
+     *  and generate reports.
+     * 
+     * @param statement Sends sql statements to the DBMS 
+     * @param result Records the result of an SQL statement
+     */
+    private static void doctorActions(Statement statement, ResultSet result){
+        //Output here explaining options
         while(true){
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
@@ -362,8 +412,16 @@ public class WolfHospital{
         }
     }
 
-    private static void specialistActions(Statement statement){
-        //Text here explaining options
+    /**
+     * This method is responsible for a specialist's behavior. It will conintue to take requests
+     * from the specialist until they decide to quit out. Specialists can treat patients, recommend tests,
+     * run tests, and generate reports.
+     * 
+     * @param statement Sends sql statements to the DBMS 
+     * @param result Records the result of an SQL statement
+     */
+    private static void specialistActions(Statement statement, ResultSet result){
+        //Output here explaining options
         while(true){
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
@@ -411,8 +469,16 @@ public class WolfHospital{
         }
     }
 
-    private static void nurseActions(Statement statement){
-        //Text here explaining options
+    /**
+     * This method is responsible for a nurse's behavior. It will conintue to take requests
+     * from the nurse's until they decide to quit out. Nurse's can treat patients and generate 
+     * reports.
+     * 
+     * @param statement Sends sql statements to the DBMS 
+     * @param result Records the result of an SQL statement
+     */
+    private static void nurseActions(Statement statement, ResultSet result){
+        //output here explaining options
         while(true){
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
