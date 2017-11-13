@@ -161,11 +161,38 @@ public class WolfHospital{
             "CONSTRAINT patient_fk FOREIGN KEY(patient_id) REFERENCES patient(patient_id)  "  +
             "ON DELETE CASCADE)");
             
+            statement.executeUpdate("CREATE SEQUENCE staff_seq MINVALUE 0 START WITH 0;");
+            statement.executeUpdate("CREATE SEQUENCE patient_seq MINVALUE 0 START WITH 0;");
+            statement.executeUpdate("CREATE SEQUENCE record_seq MINVALUE 0 START WITH 0;");
+            statement.executeUpdate("CREATE SEQUENCE billing_account_seq MINVALUE 0 START WITH 0;");
+            statement.executeUpdate("CREATE SEQUENCE ward_seq MINVALUE 0 START WITH 0;");
+            statement.executeUpdate("CREATE SEQUENCE bed_seq MINVALUE 0 START WITH 0;");
+            statement.executeUpdate("CREATE SEQUENCE check_in_seq MINVALUE 0 START WITH 0;");
+            statement.executeUpdate("CREATE SEQUENCE test_seq MINVALUE 0 START WITH 0;");
+            statement.executeUpdate("CREATE SEQUENCE office_visit_seq MINVALUE 0 START WITH 0;");
     }
 
     private static void logOn(Statement statement){
-        System.out.println("Please Enter Staff ID: ");
-        int id = scanner.nextInt();
+        System.out.println("Please Enter Staff ID or type ROLE to specify role: ");
+        String input = scanner.next();
+
+        //Alternative log in so that staff can use the program without being in the database.  Good for fresh starts.
+        if(input.toLowerCase().equals("role")){
+            System.out.println("Are you a DOCTOR, NURSE, SPECIALIST, or OPERATOR?");
+            input = scanner.next();
+            if(input.toLowerCase().equals("operator")){
+                operatorActions(statement);
+            }else if(input.toLowerCase().equals("doctor")){
+                doctorActions(statement);
+            }else if(input.toLowerCase().equals("specialist")){
+                specialistActions(statement);
+            }else if(input.toLowerCase().equals("nurse")){
+                nurseActions(statement);                  
+            } else {
+                System.out.println("That is not a valid role.  SPlease try again.");
+                logOn(statement);
+            }
+        }
 
         //TODO check if is is in the staff info then check which title they have to give them certain actions
 
@@ -178,7 +205,8 @@ public class WolfHospital{
         }else if(/*Nurse*/true){
             nurseActions(statement);                  
         } else {
-            //error
+            System.out.println("Your ID was not found. Please try again");
+            logOn(statement);
         }
     }
 
