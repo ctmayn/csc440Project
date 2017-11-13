@@ -253,7 +253,7 @@ public class WolfHospital{
      * @param result Records the result of an SQL statement
      */
     private static void operatorActions(Statement statement, ResultSet result){
-        //Output here explaining options
+        System.out.println("operator Actions: enter, update, delete, check-in, check-out, reserve, release and reports");
         while(true){
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
@@ -261,8 +261,72 @@ public class WolfHospital{
             } else if(action.toLowerCase().equals("enter")){
                 String type = scanner.next();
                 if(type.toLowerCase().equals("patient")){
+                    try {
+                        System.out.println("social security number: ");
+                        int social = Integer.parseInt(scanner.next());
+                        System.out.println("status: ");
+                        String status = scanner.next();
+                        System.out.println("Gender");
+                        String gender = scanner.next();
+                        System.out.println("Name: ");
+                        String name = scanner.next();
+                        System.out.println("Date of Birth: ");
+                        String dob = scanner.next();
+                        System.out.println("Age:");
+                        int age = Integer.parseInt(scanner.next());
+                        System.out.println("Contact Info: ");
+                        String contact = scanner.next();
+                    } catch (Exception) {
+                        System.out.println("Invalid input.");
+                        break;
+                    }
+                    try {
+                        statement.executeUpdate("INSERT INTO patient VALUES (patient.seq.nextval, status, gender, social, name, dob, age, contact)");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     
                 } else if(type.toLowerCase().equals("doctor")){
+                    try {
+                        System.out.println("Name: ");
+                        String name = scanner.next();
+                        System.out.println("Age: ");
+                        int age = Integer.parseInt(scanner.next());
+                        System.out.println("gender: ");
+                        String gender = scanner.next();
+                        System.out.println("Job Title: ");
+                        String job = scanner.next();
+                        System.out.println("Professional Title: ");
+                        String professional = scanner.next();
+                        System.out.println("Department: ");
+                        String department = scanner.next();
+                        System.out.println("Contact Info: ");
+                        String contact = scanner.next();
+                        System.out.println("Specialist: ");
+                        String specialist = scanner.next();
+                        
+                    } catch (Exception e) {
+                        System.out.println("Invalid Input.");
+                        break;
+                    }
+                    try {
+                        statement.executeUpdate("INSERT INTO staff VALUES (staff.seq.nextval, name, age, job, professional, department, contact)");
+                        //select statement for getting staff_id for adding to doctor?
+                        tatement.executeUpdate("INSERT INTO doctor VALUES (staff.seq.nextval, specialist)");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                        
+                        
+                    
+                        statement.executeUpdate("INSERT INTO patient VALUES (patient.seq.nextval, status, gender, social, name, dob, age, contact)");
+                    catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    catch (Exception) {
+                        System.out.println("Invalid input.");
+                        continue;
+                    }
                 
                 } else if(type.toLowerCase().equals("nurse")){
                     
@@ -367,14 +431,17 @@ public class WolfHospital{
      */
     private static void doctorActions(Statement statement, ResultSet result){
         //Output here explaining options
+        System.out.println("Doctor Options: quit, treat, recommend and report");
         while(true){
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
                 return;
+            //I think only specialists treat?
             } else if(action.toLowerCase().equals("treat")){
                 
             } else if(action.toLowerCase().equals("recommend")){
-                
+                System.out.println("Patient Id for recommendation:");
+                String action = scanner.next();
             } else if(action.toLowerCase().equals("reports")){
                 String type = scanner.next();
                 if(type.toLowerCase().equals("history")){
