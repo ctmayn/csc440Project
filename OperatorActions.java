@@ -67,30 +67,105 @@
                     try {
                         statement.executeUpdate("INSERT INTO staff VALUES (staff.seq.nextval, name, age, job, professional, department, contact)");
                         //select statement for getting staff_id for adding to doctor?
-                        tatement.executeUpdate("INSERT INTO doctor VALUES (staff.seq.nextval, specialist)");
+                        //statement.executeUpdate("INSERT INTO doctor VALUES (staff.seq.nextval, specialist)");
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                        
-                        
-                    
-                        statement.executeUpdate("INSERT INTO patient VALUES (patient.seq.nextval, status, gender, social, name, dob, age, contact)");
-                    catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    catch (Exception) {
-                        System.out.println("Invalid input.");
-                        continue;
-                    }
                 
                 } else if(type.toLowerCase().equals("nurse")){
+					try {
+					    System.out.println("Name: ");
+                        String name = scanner.next();
+                        System.out.println("Age: ");
+                        int age = Integer.parseInt(scanner.next());
+                        System.out.println("gender: ");
+                        String gender = scanner.next();
+                        System.out.println("Job Title: ");
+                        String job = scanner.next();
+                        System.out.println("Professional Title: ");
+                        String professional = scanner.next();
+                        System.out.println("Department: ");
+                        String department = scanner.next();
+                        System.out.println("Contact Info: ");
+                        String contact = scanner.next();
+					} catch (Exception) {
+						System.out.println("invalid input.");
+						break;
+					}
+					try {
+						statement.executeUpdate("INSERT INTO staff VALUES (staff.seq.nextval, name, age, job, professional, department, contact)");
+						//insert nurse into nurse got to find the staff id
+						//statement.executeUpdate("INSERT INTO nurse VALUES (staff.seq.nextval)");
+					} catch (SQLExeption e) {
+						e.printStackTrace();
+					}
+                        
                     
                 } else if(type.toLowerCase().equals("operator")){
+					try {
+					    System.out.println("Name: ");
+                        String name = scanner.next();
+                        System.out.println("Age: ");
+                        int age = Integer.parseInt(scanner.next());
+                        System.out.println("gender: ");
+                        String gender = scanner.next();
+                        System.out.println("Job Title: ");
+                        String job = scanner.next();
+                        System.out.println("Professional Title: ");
+                        String professional = scanner.next();
+                        System.out.println("Department: ");
+                        String department = scanner.next();
+                        System.out.println("Contact Info: ");
+                        String contact = scanner.next();
+					} catch (Exception) {
+						System.out.println("invalid input.");
+						break;
+					}
+					try {
+						statement.executeUpdate("INSERT INTO staff VALUES (staff.seq.nextval, name, age, job, professional, department, contact)");
+						//insert nurse into nurse got to find the staff id
+						//statement.executeUpdate("INSERT INTO operator VALUES (staff.seq.nextval)");
+					} catch (SQLExeption e) {
+						e.printStackTrace();
+					}
                     
                 } else if(type.toLowerCase().equals("wards")){
-                    
+					try {
+						System.out.println("Ward number: ");
+                        int number = Integer.parseInt(scanner.next());
+                        System.out.println("charges per day: ");
+                        int charges = Integer.parseInt(scanner.next());
+                        System.out.println("responsible nurse: ");
+                        String nurse = scanner.next();
+                        System.out.println("capacity: ");
+                        int capacity = Integer.parseInt(scanner.next());
+					} catch (Exception) {
+						System.out.println("Invalid input.");
+						break;
+					}
+					try {
+						statement.executeUpdate("INSERT INTO ward VALUES (number, charges, nurse, capacity)");
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
                 } else if(type.toLowerCase().equals("bed")){
-                    
+					try {
+						System.out.println("Bed Number:");
+						int bed = Integer.parseInt(scanner.next());
+						System.out.println("Ward Numer: ");
+						int ward = Integer.parseInt(scanner.next());
+						System.out.println("Patient ID:");
+						int patient = Integer.parseInt(scanner.next());
+					} catch (Exception) {
+						System.out.println("Invalid Input.");
+						break;
+					}
+					try {
+						statement.executeUpdate("INSERT INTO bed VALUES (bed, ward, patient)");
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					
                 } else {
                     System.out.println("Not a valid object to enter information about.");
                     continue;
