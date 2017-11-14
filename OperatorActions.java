@@ -247,7 +247,7 @@
                                 break;
                             }
                         }else if (option.equals("age")) {
-                            int age = Integeter.parseInt(scanner.next());
+                            int age = Integer.parseInt(scanner.next());
                             try {
                                 statement.executeUpdate("UPDATE patient SET age=" + age + " WHERE patient_id=" + id);
                             } catch (SQLException e) {
@@ -319,7 +319,7 @@
                         } else if (option.equals("contact")) {
                             String contact = scanner.next();
                             try {
-                                statement.executeUpdate("UPDATE staff SET contact_info=" + name + " WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET contact_info=" + contact + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -388,7 +388,7 @@
                         } else if (option.equals("contact")) {
                             String contact = scanner.next();
                             try {
-                                statement.executeUpdate("UPDATE staff SET contact_info=" + name + " WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET contact_info=" + contact + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -449,7 +449,7 @@
                         } else if (option.equals("contact")) {
                             String contact = scanner.next();
                             try {
-                                statement.executeUpdate("UPDATE staff SET contact_info=" + name + " WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET contact_info=" + contact + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -457,6 +457,7 @@
                         } else {
                             System.out.println("Invalid Input.");
                         }
+                    }
                 } else if(type.toLowerCase().equals("wards")){
                     System.out.println("Ward number for update: ");
                     int ward = Integer.parseInt(scanner.next());
@@ -520,29 +521,58 @@
                 if(type.toLowerCase().equals("patient")){
                     System.out.println("Patient id for deletion:");
                     int id = Integer.parseInt(scanner.next());
-                    statement.executeUpdate("DELETE FROM patient WHERE patient_id=" + id);
+                    try {
+                        statement.executeUpdate("DELETE FROM patient WHERE patient_id=" + id);
+                    } catch (SQLException e) {
+                        System.out.println("Error deleting patient.");
+                    }
+                    
                 } else if(type.toLowerCase().equals("doctor")){
                     System.out.println("doctor id for deletion:");
                     int id = Integer.parseInt(scanner.next());
-                    statement.executeUpdate("DELETE FROM doctor WHERE doctor_id=" + id);
+                     try {
+                        statement.executeUpdate("DELETE FROM doctor WHERE doctor_id=" + id);
+                    } catch (SQLException e) {
+                        System.out.println("Error deleting doctor.");
+                    }
+                    
                 } else if(type.toLowerCase().equals("nurse")){
                     System.out.println("nurse id for deletion:");
                     int id = Integer.parseInt(scanner.next());
-                    statement.executeUpdate("DELETE FROM nurse WHERE nurse_id=" + id);
+                     try {
+                        statement.executeUpdate("DELETE FROM nurse WHERE nurse_id=" + id);
+                    } catch (SQLException e) {
+                        System.out.println("Error deleting nurse.");
+                    }
                 } else if(type.toLowerCase().equals("operator")){
                     System.out.println("operator id for deletion:");
                     int id = Integer.parseInt(scanner.next());
-                    statement.executeUpdate("DELETE FROM operator WHERE operator_id=" + id);
+                    try {
+                        statement.executeUpdate("DELETE FROM operator WHERE operator_id=" + id);
+                    } catch (SQLException e) {
+                        System.out.println("Error deleting operator.");
+                    }
+                    
                 } else if(type.toLowerCase().equals("wards")){
                     System.out.println("ward num for deletion:");
                     int id = Integer.parseInt(scanner.next());
-                    statement.executeUpdate("DELETE FROM ward WHERE ward_num=" + id);
+                    try {
+                        statement.executeUpdate("DELETE FROM ward WHERE ward_num=" + id);
+                    } catch (SQLException e) {
+                        System.out.println("Error deleting ward.");
+                    }
+                    
                 } else if(type.toLowerCase().equals("bed")){
                     System.out.println("bed id for deletion:");
                     int bedid = Integer.parseInt(scanner.next());
                     System.out.println("ward num for deletion of bed");
                     int wardid = Integer.parseInt(scanner.next());
-                    statement.executeUpdate("DELETE FROM bed WHERE bed_id=" + bedid + "AND WHERE ward_num=" + wardid);
+                    try {
+                        statement.executeUpdate("DELETE FROM bed WHERE bed_id=" + bedid + "AND WHERE ward_num=" + wardid);
+                    } catch (SQLException e) {
+                        System.out.println("Error deleting bed.");
+                    }
+                    
                 } else {
                     System.out.println("Not a valid object to delete.");
                     continue;
@@ -557,7 +587,7 @@
                 System.out.println("ward number:");
                 int ward= Integer.parseInt(scanner.next());
                 try {
-                    statement.executeUpdate("INSERT INTO check_in_information(check_in_id, start_date, end_date, bed_num, ward_num) VALUES (check_in_seq.nextval," + startdate + "," + enddate + "," + bed + "," + ward")");
+                    statement.executeUpdate("INSERT INTO check_in_information(check_in_id, start_date, end_date, bed_num, ward_num) VALUES (check_in_seq.nextval," + startdate + "," + enddate + "," + bed + "," + ward + ")");
                 } catch (SQLException e) {
                     System.out.println("Error creating check_in");
                 }
