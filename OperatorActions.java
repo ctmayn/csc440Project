@@ -552,17 +552,50 @@
                 String startdate = scanner.next();
                 System.out.println("end date:");
                 String enddate = scanner.next();
-                System.out.println("start date:");
-                String startdate = scanner.next();
-                System.out.println("start date:");
-                String startdate = scanner.next();
+                System.out.println("bed number:");
+                int bed = Integer.parseInt(scanner.next());
+                System.out.println("ward number:");
+                int ward= Integer.parseInt(scanner.next());
+                try {
+                    statement.executeUpdate("INSERT INTO check_in_information(check_in_id, start_date, end_date, bed_num, ward_num) VALUES (check_in_seq.nextval," + startdate + "," + enddate + "," + bed + "," + ward")");
+                } catch (SQLException e) {
+                    System.out.println("Error creating check_in");
+                }
                 
             } else if(action.toLowerCase().equals("check-out")){
-                
+                System.out.println("Check in information ID:");
+                int id = Integer.parseInt(scanner.next());
+                System.out.println("date: ");
+                String enddate = scanner.next();
+                try {
+                    statement.executeUpdate("UPDATE check_in_information SET end_date=" + enddate + " WHERE check_in_id=" + id);
+                } catch (SQLException e) {
+                    System.out.println("Error checking out");
+                }
             } else if(action.toLowerCase().equals("reserve")){
-                
+                System.out.println("Patient id for reserving bed:");
+                int patid = Integer.parseInt(scanner.next());
+                System.out.println("bed num for reservation:");
+                int bednum = Integer.parseInt(scanner.next());
+                System.out.println("ward num for reservation");
+                int wardnum = Integer.parseInt(scanner.next());
+                try {
+                    statement.executeUpdate("UPDATE bed patient_id=" + patid + "WHERE bed_num =" + bednum + "AND WHERE ward_num=" + wardnum + "AND patient_id=NULL"); 
+                } catch (SQLException e) {
+                    System.out.println("Error reserving bed.");
+                }
             } else if(action.toLowerCase().equals("release")){
-                
+                System.out.println("Patient id for release:");
+                int patid = Integer.parseInt(scanner.next());
+                System.out.println("bed num for release:");
+                int bednum = Integer.parseInt(scanner.next());
+                System.out.println("ward num for release");
+                int wardnum = Integer.parseInt(scanner.next());
+                try {
+                    statement.executeUpdate("UPDATE bed patient_id=NULL WHERE bed_num =" + bednum + "AND WHERE ward_num=" + wardnum); 
+                } catch (SQLException e) {
+                    System.out.println("Error reserving bed.");
+                }
             } else if(action.toLowerCase().equals("reports")){
                 String type = scanner.next();
                 if(type.toLowerCase().equals("history")){
