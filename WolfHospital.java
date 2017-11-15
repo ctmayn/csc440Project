@@ -812,7 +812,7 @@ public class WolfHospital{
                 System.out.println("ward number:");
                 int ward= Integer.parseInt(scanner.next());
                 try {
-                    statement.executeUpdate("INSERT INTO check_in_information( start_date, end_date, bed_num, ward_num) VALUES (" + startdate + "," + enddate + "," + bed + "," + ward + ")");
+                    statement.executeUpdate("INSERT INTO check_in_information( start_date, end_date, bed_num, ward_num) VALUES ('" + startdate + "','" + enddate + "','" + bed + "','" + ward + "')'");
                 } catch (SQLException e) {
                     System.out.println("Error creating check_in");
                 }
