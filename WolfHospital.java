@@ -370,7 +370,7 @@ public class WolfHospital{
 						statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
                         result = statement.executeQuery("SELECT MAX(id) AS max_id FROM staff");
                         result.next();
-                        int id = result.getInt("id");
+                        int id = result.getInt("max_id");
                         statement.executeUpdate("INSERT INTO operator(staff_id) VALUES ('" + id + "')");
 					} catch (SQLException e) {
 						e.printStackTrace();
