@@ -1,7 +1,16 @@
 import java.sql.*;
 import java.util.*;
 
-
+/**
+ * This class is the main class of the Wolf Hospital system. It allows users to  enter, update, and delete 
+ * staff and hospital information, check-in and check-out patients, reserve and release beds,
+ * and generate reports.
+ * 
+ * @author Christopher Maynard
+ * @author Marshall Skelton
+ * @author Daniel Deans
+ * @author Caeman Toombs
+ */
 public class WolfHospital{}
     private static final String user = "";
     private static final String password = "";
@@ -187,6 +196,15 @@ public class WolfHospital{}
             "ON DELETE CASCADE)");
     }
 
+    /**
+     * This method is responsible for a use's behavior. It will conintue to take requests
+     * from the operator until they decide to quit out. Users can enter, update, and delete 
+     * staff and hospital information, check-in and check-out patients, reserve and release beds,
+     * and generate reports.
+     * 
+     * @param statement Sends sql statements to the DBMS 
+     * @param result Records the result of an SQL statement
+     */
     private static void actions(Statement statement, ResultSet result){
         System.out.println("Hello and Welcome to the Wolf Hospital System!");
         while(true){
