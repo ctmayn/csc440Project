@@ -2,10 +2,10 @@ import java.sql.*;
 import java.util.*;
 
 
-public class WolfHospital{
-    private static final String jdbcURL = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/ctmaynar";
-    private static final String user = "ctmaynar";
-    private static final String password = "y69o53";
+public class WolfHospital{}
+    private static final String user = "";
+    private static final String password = "";
+    private static final String jdbcURL = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/" + user;
 
     private static Scanner scanner = null;
 
