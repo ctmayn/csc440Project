@@ -293,7 +293,9 @@ public class WolfHospital{
                     try {
 			            statement.executeUpdate("START TRANSACTION;");
                         statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
-                        ccc
+                        result.next();
+                        int id = result.getInt("max_id");
+                        statement.executeUpdate("INSERT INTO doctor(staff_id, specialist) VALUES ('" + id + "', '" + specialist + "')");
                     	statement.executeUpdate("COMMIT;");
                     } catch (SQLException e) {
                         statement.executeUpdate("ROLLBACK;");
@@ -835,17 +837,17 @@ public class WolfHospital{
                 int doctor_id = scanner.nextInt();
 
                 System.out.println("Diagnosis Details:");
-                String diagnosis_details = scanner.nextNext();
+                String diagnosis_details = scanner.next();
 
                 System.out.println("Prescription: ");
-                String prescription = scanner.nextNext();
+                String prescription = scanner.next();
                 
                 System.out.println("Billing Info");
                 System.out.println("Billing Address:");
-                String billing_addr = scanner.nextNext();
+                String billing_addr = scanner.next();
 
                 System.out.println("Payment Info:");
-                String payment_info = scanner.nextNext();
+                String payment_info = scanner.next();
                 try {
                     result = statement.executeQuery("SELECT check_in_id FROM office_visit WHERE visit_num = " + id);
                     result.next();
