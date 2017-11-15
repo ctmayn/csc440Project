@@ -217,12 +217,12 @@ public class WolfHospital{
             "\n<Release> reservations for beds for patients." + 
             "\nGerneate <reports>." + 
             "\n<Quit>.");
-            String action = scanner.next();
+            String action = scanner.nextLine();
             if(action.toLowerCase().equals("quit")){
                 return;
             } else if(action.toLowerCase().equals("enter")){
                 System.out.println("Choices for entering info: Patient, Doctor, Nurse, Operator, Ward, or Bed.");
-                String type = scanner.next();
+                String type = scanner.nextLine();
                 if(type.toLowerCase().equals("patient")){
                     int social;
                     String status;
@@ -235,17 +235,17 @@ public class WolfHospital{
                         System.out.println("social security number: ");
                         social = scanner.nextInt();
                         System.out.println("status: ");
-                        status = scanner.next();
+                        status = scanner.nextLine();
                         System.out.println("Gender");
-                        gender = scanner.next();
+                        gender = scanner.nextLine();
                         System.out.println("Name: ");
-                        name = scanner.next();
+                        name = scanner.nextLine();
                         System.out.println("Date of Birth: ");
-                        dob = scanner.next();
+                        dob = scanner.nextLine();
                         System.out.println("Age:");
                         age = scanner.nextInt();
                         System.out.println("Contact Info: ");
-                        contact = scanner.next();
+                        contact = scanner.nextLine();
                     } catch (Exception e) {
                         System.out.println("Invalid input.");
                         break;
@@ -267,21 +267,21 @@ public class WolfHospital{
                     String specialist;
                     try {
                         System.out.println("Name: ");
-                        name = scanner.next();
+                        name = scanner.nextLine();
                         System.out.println("Age: ");
                         age = scanner.nextInt();
                         System.out.println("gender: ");
-                        gender = scanner.next();
+                        gender = scanner.nextLine();
                         System.out.println("Job Title: ");
-                        job = scanner.next();
+                        job = scanner.nextLine();
                         System.out.println("Professional Title: ");
-                        professional = scanner.next();
+                        professional = scanner.nextLine();
                         System.out.println("Department: ");
-                        department = scanner.next();
+                        department = scanner.nextLine();
                         System.out.println("Contact Info: ");
-                        contact = scanner.next();
+                        contact = scanner.nextLine();
                         System.out.println("Specialist? (Yes/No): ");
-                        specialist = scanner.next();
+                        specialist = scanner.nextLine();
                     } catch (Exception e) {
                         System.out.println("Invalid Input.");
                         break;
@@ -308,19 +308,19 @@ public class WolfHospital{
                     String contact;
 					try {
 					    System.out.println("Name: ");
-                        name = scanner.next();
+                        name = scanner.nextLine();
                         System.out.println("Age: ");
                         age = scanner.nextInt();
                         System.out.println("gender: ");
-                        gender = scanner.next();
+                        gender = scanner.nextLine();
                         System.out.println("Job Title: ");
-                        job = scanner.next();
+                        job = scanner.nextLine();
                         System.out.println("Professional Title: ");
-                        professional = scanner.next();
+                        professional = scanner.nextLine();
                         System.out.println("Department: ");
-                        department = scanner.next();
+                        department = scanner.nextLine();
                         System.out.println("Contact Info: ");
-                        contact = scanner.next();
+                        contact = scanner.nextLine();
 					} catch (Exception e) {
 						System.out.println("invalid input.");
 						break;
@@ -349,19 +349,19 @@ public class WolfHospital{
                     String contact;
 					try {
 					    System.out.println("Name: ");
-                        name = scanner.next();
+                        name = scanner.nextLine();
                         System.out.println("Age: ");
                         age = scanner.nextInt();
                         System.out.println("gender: ");
-                        gender = scanner.next();
+                        gender = scanner.nextLine();
                         System.out.println("Job Title: ");
-                        job = scanner.next();
+                        job = scanner.nextLine();
                         System.out.println("Professional Title: ");
-                        professional = scanner.next();
+                        professional = scanner.nextLine();
                         System.out.println("Department: ");
-                        department = scanner.next();
+                        department = scanner.nextLine();
                         System.out.println("Contact Info: ");
-                        contact = scanner.next();
+                        contact = scanner.nextLine();
 					} catch (Exception e) {
 						System.out.println("invalid input.");
 						break;
@@ -420,16 +420,16 @@ public class WolfHospital{
                 }
             } else if(action.toLowerCase().equals("update")){
                 System.out.println("Choices for updating info: Patient, Doctor, Nurse, Operator, Ward, or Bed.");
-                String type = scanner.next();
+                String type = scanner.nextLine();
                 if(type.toLowerCase().equals("patient")){
                     System.out.println("Patient ID for update: ");
                     int id = scanner.nextInt();
                     while (true) {
                         
                         System.out.println("Options for patient update: quit, social, status, gender, name, dob, age, contact");
-                        String option = scanner.next();
+                        String option = scanner.nextLine();
                         if (option.equals("social")) {
-                            String social = scanner.next();
+                            String social = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE patient SET ssn=" + social + " WHERE patient_id=" + id);
                             } catch (SQLException e) {
@@ -437,7 +437,7 @@ public class WolfHospital{
                                 break;
                             }
                         }else if (option.equals("status")) {
-                            String status = scanner.next();
+                            String status = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE patient SET status=" + status + " WHERE patient_id=" + id);
                             } catch (SQLException e) {
@@ -445,7 +445,7 @@ public class WolfHospital{
                                 break;
                             }
                         }else if (option.equals("gender")) {
-                            String gender = scanner.next();
+                            String gender = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE patient SET gender=" + gender + " WHERE patient_id=" + id);
                             } catch (SQLException e) {
@@ -453,7 +453,7 @@ public class WolfHospital{
                                 break;
                             }
                         }else if (option.equals("name")) {
-                            String name = scanner.next();
+                            String name = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE patient SET name=" + name + " WHERE patient_id=" + id);
                             } catch (SQLException e) {
@@ -461,7 +461,7 @@ public class WolfHospital{
                                 break;
                             }
                         }else if (option.equals("dob")) {
-                            String dob = scanner.next();
+                            String dob = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE patient SET DOB=" + dob + " WHERE patient_id=" + id);
                             } catch (SQLException e) {
@@ -477,7 +477,7 @@ public class WolfHospital{
                                 break;
                             }
                         }else if (option.equals("contact")) {
-                            String contact = scanner.next();
+                            String contact = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE patient SET contact_info=" + contact + " WHERE patient_id=" + id);
                             } catch (SQLException e) {
@@ -495,11 +495,11 @@ public class WolfHospital{
                     int id = scanner.nextInt();
                     while (true) {
                         System.out.println("Options for doctor/staff update: quit, name, age, job, professional, dept, contact, specialist");
-                        String option = scanner.next();
+                        String option = scanner.nextLine();
                         if (option.equals("quit")) {
                             break;
                         } else if (option.equals("name")) {
-                            String name = scanner.next();
+                            String name = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET name=" + name + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -515,7 +515,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("job")) {
-                            String job = scanner.next();
+                            String job = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET job_title=" + job + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -523,7 +523,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("professional")) {
-                            String professional = scanner.next();
+                            String professional = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET professional_title=" + professional + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -531,7 +531,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("dept")) {
-                            String dept = scanner.next();
+                            String dept = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET dept=" + dept + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -539,7 +539,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("contact")) {
-                            String contact = scanner.next();
+                            String contact = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET contact_info=" + contact + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -547,7 +547,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("specialist")) {
-                            String specialist = scanner.next();
+                            String specialist = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE doctor SET specialist=" + specialist + " WHERE doctor_id=" + id);
                             } catch (SQLException e) {
@@ -564,11 +564,11 @@ public class WolfHospital{
                     int id = scanner.nextInt();
                     while (true) {
                         System.out.println("Options for nurse/staff update: quit, name, age, job, professional, dept, contact");
-                        String option = scanner.next();
+                        String option = scanner.nextLine();
                         if (option.equals("quit")) {
                             break;
                         } else if (option.equals("name")) {
-                            String name = scanner.next();
+                            String name = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET name=" + name + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -584,7 +584,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("job")) {
-                            String job = scanner.next();
+                            String job = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET job_title=" + job + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -592,7 +592,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("professional")) {
-                            String professional = scanner.next();
+                            String professional = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET professional_title=" + professional + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -600,7 +600,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("dept")) {
-                            String dept = scanner.next();
+                            String dept = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET dept=" + dept + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -608,7 +608,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("contact")) {
-                            String contact = scanner.next();
+                            String contact = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET contact_info=" + contact + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -625,11 +625,11 @@ public class WolfHospital{
                     int id = scanner.nextInt();
                     while (true) {
                         System.out.println("Options for Operator/staff update: quit, name, age, job, professional, dept, contact");
-                        String option = scanner.next();
+                        String option = scanner.nextLine();
                         if (option.equals("quit")) {
                             break;
                         } else if (option.equals("name")) {
-                            String name = scanner.next();
+                            String name = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET name=" + name + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -645,7 +645,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("job")) {
-                            String job = scanner.next();
+                            String job = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET job_title=" + job + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -653,7 +653,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("professional")) {
-                            String professional = scanner.next();
+                            String professional = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET professional_title=" + professional + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -661,7 +661,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("dept")) {
-                            String dept = scanner.next();
+                            String dept = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET dept=" + dept + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -669,7 +669,7 @@ public class WolfHospital{
                                 break;
                             }
                         } else if (option.equals("contact")) {
-                            String contact = scanner.next();
+                            String contact = scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET contact_info=" + contact + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -684,7 +684,7 @@ public class WolfHospital{
                     System.out.println("Ward number for update: ");
                     int ward = scanner.nextInt();
                     System.out.println("Options for ward update: quit, charges, responsible, capacity");
-                    String option = scanner.next();
+                    String option = scanner.nextLine();
                     if (option.equals("quit")) {
                         break;
                     } else if (option.equals("charges")) {
@@ -720,7 +720,7 @@ public class WolfHospital{
                     System.out.println("ward number for bed update:");
                     int ward = scanner.nextInt();
                     System.out.println("Options for bed update: quit, patient");
-                    String option = scanner.next();
+                    String option = scanner.nextLine();
                     if (option.equals("quit")) {
                         break;
                     } else if (option.equals("patient")) {
@@ -740,7 +740,7 @@ public class WolfHospital{
                 }
             } else if(action.toLowerCase().equals("delete")){
                 System.out.println("Choices for deleting info: Patient, Doctor, Nurse, Operator, Ward, or Bed.");
-                String type = scanner.next();
+                String type = scanner.nextLine();
                 if(type.toLowerCase().equals("patient")){
                     System.out.println("Patient id for deletion:");
                     int id = scanner.nextInt();
@@ -802,7 +802,7 @@ public class WolfHospital{
                 }
             } else if(action.toLowerCase().equals("check-in")){
                 System.out.println("Check-in Date (YYYY-MM-DD):");
-                String startdate = scanner.next();
+                String startdate = scanner.nextLine();
                 System.out.println("bed number:");
                 int bed = scanner.nextInt();
                 System.out.println("ward number:");
@@ -824,24 +824,24 @@ public class WolfHospital{
                 int id = scanner.nextInt();
 
                 System.out.println("Check-out date (YYYY-MM-DD): ");
-                String enddate = scanner.next();
+                String enddate = scanner.nextLine();
 
                 System.out.println("Medical Record Info");
                 System.out.println("Responsible Doctor ID:");
                 int doctor_id = scanner.nextInt();
 
                 System.out.println("Diagnosis Details:");
-                String diagnosis_details = scanner.next();
+                String diagnosis_details = scanner.nextLine();
 
                 System.out.println("Prescription: ");
-                String prescription = scanner.next();
+                String prescription = scanner.nextLine();
                 
                 System.out.println("Billing Info");
                 System.out.println("Billing Address:");
-                String billing_addr = scanner.next();
+                String billing_addr = scanner.nextLine();
 
                 System.out.println("Payment Info:");
-                String payment_info = scanner.next();
+                String payment_info = scanner.nextLine();
                 try {
                     result = statement.executeQuery("SELECT check_in_id FROM office_visit WHERE visit_num = " + id);
                     result.next();
@@ -858,17 +858,17 @@ public class WolfHospital{
                     statement.executeUpdate("UPDATE office_visit SET record_num=" + record_num + ", billing_id = " + billing_id + " WHERE visit_num = " + id);
 
                     System.out.println("Was a test run? (Yes/No)");
-                    String test = scanner.next();
+                    String test = scanner.nextLine();
                     if(test.toLowerCase().startsWith("y")){
         
                         System.out.println("Test Name: ");
-                        String test_name = scanner.next();
+                        String test_name = scanner.nextLine();
         
                         System.out.println("Specialist:");
                         int specialist_id = scanner.nextInt();
         
                         System.out.println("Test Results:");
-                        String test_results = scanner.next();
+                        String test_results = scanner.nextLine();
                         
                         result = statement.executeQuery("SELECT patient_id FROM office_visit WHERE vist_num = " + id);
                         result.next();
@@ -905,16 +905,16 @@ public class WolfHospital{
                 }
             } else if(action.toLowerCase().equals("reports")){
                 System.out.println("What report? Patient <history>, <ward> status, patients per month<ppm>, ward-usage percentage<wup>, a <doctor>'s patients, <staff> info."); 
-                String type = scanner.next();                               
+                String type = scanner.nextLine();                               
                 if(type.toLowerCase().equals("history")){
                     System.out.println("What is the patient's id?");
                     int id = scanner.nextInt();
 
                     System.out.println("Beginning Check-in Date (YYYY-MM-DD):");
-                    String startdate = scanner.next();
+                    String startdate = scanner.nextLine();
 
                     System.out.println("Ending Check-in Date (YYYY-MM-DD):");
-                    String enddate = scanner.next();
+                    String enddate = scanner.nextLine();
 
                     result = statement.executeQuery("SELECT medical_record.record_number, medical_record.res_doctor, medical_record.diagnosis_details, medical_record.prescription, test.test_name, test.specialist, test.test_results" +
                     "JOIN medical_record ON office_vist.record_num = medical_record.record_num " +
@@ -941,9 +941,9 @@ public class WolfHospital{
                     }
                 } else if(type.toLowerCase().equals("ppm")){
                     System.out.println("start date:");
-                    String start = scanner.next();
+                    String start = scanner.nextLine();
                     System.out.println("end date:");
-                    String end = scanner.next();
+                    String end = scanner.nextLine();
                     try {
                         result = statement.executeQuery("SELECT COUNT(*) as patients FROM check_in_information WHERE start_date > " + start + " AND end_date < " + end);
                         System.out.println("patients per month: " + result.getInt("patients"));
@@ -971,7 +971,7 @@ public class WolfHospital{
                     
                 } else if(type.toLowerCase().equals("staff")){
                     System.out.println("Choose a type: Doctor,  Nurse, Operator.");
-                    String staff = scanner.next();
+                    String staff = scanner.nextLine();
                     if(staff.toLowerCase().equals("doctor")){
                         result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info, doctor.specialist FROM doctor INNER JOIN staff ON doctor.staff_id = staff.id");
                         while (result.next()) {
