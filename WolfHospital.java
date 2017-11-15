@@ -288,12 +288,15 @@ public class WolfHospital{}
                         break;
                     }
                     try {
+			statement.executeUpdate("START TRANSACTION;");
                         statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
                         result = statement.executeQuery("SELECT MAX(id) AS max_id FROM staff");
                         result.next();
                         int id = result.getInt("max_id");
                         statement.executeUpdate("INSERT INTO doctor(staff_id, specialist) VALUES ('" + id + "', '" + specialist + "')");
-                    } catch (SQLException e) {
+                    	statement.executeUpdate("COMMIT;");
+		    } catch (SQLException e) {
+			statement.executeUpdate("ROLLBACK;");
                         e.printStackTrace();
                     }
                 
@@ -325,12 +328,15 @@ public class WolfHospital{}
 						break;
 					}
 					try {
+						statement.executeUpdate("START TRANSACTION;");
                         statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
                         result = statement.executeQuery("SELECT MAX(id) AS max_id FROM staff");
                         result.next();
                         int id = result.getInt("max_id");
 						statement.executeUpdate("INSERT INTO nurse(staff_id) VALUES ( '" + id + "')");
+						statement.executeUpdate("COMMIT;");
 					} catch (SQLException e) {
+						statement.executeUpdate("ROLLBACK;");
 						e.printStackTrace();
 					}
                         
