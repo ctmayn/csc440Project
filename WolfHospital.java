@@ -195,8 +195,10 @@ public class WolfHospital{
             "\n<Delete> info about patients, staff, and wards." + 
             "\n<Check-in> patients." + 
             "\n<Check-out> patients." + 
-            "\n<Reserve> beds for patients" + "Release reservations for beds for patients." + 
-            "\nGerneate <reports>.");
+            "\n<Reserve> beds for patients." + 
+            "\nRelease reservations for beds for patients." + 
+            "\nGerneate <reports>." + 
+            "\n<Quit>.");
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
                 return;
@@ -231,7 +233,7 @@ public class WolfHospital{
                         break;
                     }
                     try {
-                        statement.executeUpdate("INSERT INTO patient(patient_id, status, gender, ssn, name, DOB, age, contact_info) VALUES (patient.seq.nextval," + status + ", " + gender + ", " + social + ", " + name + ", " + dob + ", " + age + ", " + contact + ")");
+                        statement.executeUpdate("INSERT INTO patient(status, gender, ssn, name, DOB, age, contact_info) VALUES ('" + status + "', '" + gender + "', '" + social + "', '" + name + "', '" + dob + "', '" + age + "', '" + contact + "')");
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -268,8 +270,11 @@ public class WolfHospital{
                         break;
                     }
                     try {
-                        statement.executeUpdate("INSERT INTO staff(id, name ,age, job_title, professional_title, dept, contact_info) VALUES (staff.seq.nextval," + name + ", " + age + ", " + job + ", " + professional + ", " + department + ", " + contact + ")");
-                        statement.executeUpdate("INSERT INTO doctor(staff_id, specialist) VALUES (staff.seq.currval, " + specialist + ")");
+                        statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
+                        result = statement.executeQuery("SELECT MAX(id) AS max_id FROM staff");
+                        result.next();
+                        int id = result.getInt("max_id");
+                        statement.executeUpdate("INSERT INTO doctor(staff_id, specialist) VALUES ('" + id + "', '" + specialist + "')");
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -302,8 +307,11 @@ public class WolfHospital{
 						break;
 					}
 					try {
-						statement.executeUpdate("INSERT INTO staff(id, name ,age, job_title, professional_title, dept, contact_info) VALUES (staff.seq.nextval," + name + ", " + age + ", " + job + ", " + professional + ", " + department + ", " + contact + ")");
-						statement.executeUpdate("INSERT INTO nurse(staff_id) VALUES (staff.seq.currval)");
+                        statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
+                        result = statement.executeQuery("SELECT MAX(id) AS max_id FROM staff");
+                        result.next();
+                        int id = result.getInt("max_id");
+						statement.executeUpdate("INSERT INTO nurse(staff_id) VALUES ( '" + id + "')");
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -337,8 +345,11 @@ public class WolfHospital{
 						break;
 					}
 					try {
-						statement.executeUpdate("INSERT INTO staff(id, name ,age, job_title, professional_title, dept, contact_info) VALUES (staff.seq.nextval," + name + ", " + age + ", " + job + ", " + professional + ", " + department + ", " + contact + ")");
-						statement.executeUpdate("INSERT INTO operator(staff_id) VALUES (staff.seq.currval)");
+						statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
+                        result = statement.executeQuery("SELECT MAX(id) AS max_id FROM staff");
+                        result.next();
+                        int id = result.getInt("id");
+                        statement.executeUpdate("INSERT INTO operator(staff_id) VALUES ('" + id + "')");
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -359,7 +370,7 @@ public class WolfHospital{
 						break;
 					}
 					try {
-						statement.executeUpdate("INSERT INTO ward(ward_num, charges_per_day, res_nurse, capacity) VALUES (ward.seq.nextval," + charges + "," + nurse + "," + capacity + ")");
+						statement.executeUpdate("INSERT INTO ward( charges_per_day, res_nurse, capacity) VALUES ('" + charges + "', '" + nurse + "', '" + capacity + ")");
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -376,7 +387,7 @@ public class WolfHospital{
 						break;
 					}
 					try {
-						statement.executeUpdate("INSERT INTO ward(bed_num, ward_num, patient_id) VALUES (bed.seq.nextval," + ward + "," + patient + ")");
+						statement.executeUpdate("INSERT INTO bed ( ward_num, patient_id) VALUES ('" + ward + "', '" + patient + "')");
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -777,7 +788,7 @@ public class WolfHospital{
                 System.out.println("ward number:");
                 int ward= Integer.parseInt(scanner.next());
                 try {
-                    statement.executeUpdate("INSERT INTO check_in_information(check_in_id, start_date, end_date, bed_num, ward_num) VALUES (check_in_seq.nextval," + startdate + "," + enddate + "," + bed + "," + ward + ")");
+                    statement.executeUpdate("INSERT INTO check_in_information( start_date, end_date, bed_num, ward_num) VALUES (" + startdate + "," + enddate + "," + bed + "," + ward + ")");
                 } catch (SQLException e) {
                     System.out.println("Error creating check_in");
                 }
