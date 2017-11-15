@@ -849,7 +849,7 @@ public class WolfHospital{
                 try {
                     statement.executeUpdate("UPDATE bed patient_id=NULL WHERE bed_num =" + bednum + "AND WHERE ward_num=" + wardnum); 
                 } catch (SQLException e) {
-                    System.out.println("Error reserving bed.");
+                    System.out.println("Error releasing bed.");
                 }
             } else if(action.toLowerCase().equals("reports")){
                 System.out.println("What report? Patient <history>, <ward> status, patients per month<ppm>, ward-usage percentage<wup>, a <doctor>'s patients, <staff> info."); 
