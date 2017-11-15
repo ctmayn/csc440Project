@@ -3,9 +3,9 @@ import java.util.*;
 
 
 public class WolfHospital{
-    private static final String jdbcURL = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/$USER$";
-    private static final String user = "$USER$";
-    private static final String password = "$PASSWORD$";
+    private static final String jdbcURL = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/ctmaynar";
+    private static final String user = "ctmaynar";
+    private static final String password = "y69o53";
 
     private static Scanner scanner = null;
 
@@ -81,120 +81,110 @@ public class WolfHospital{
      * @throws SQLException
      */
     private static void setupTables(Statement statement) throws SQLException{
-        statement.executeUpdate("CREATE TABLE staff (" +
-            "id INT PRIMARY KEY, "  +
-            "name NVARCHAR2(128) NOT NULL, " +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS staff (" +
+            "id INT AUTO_INCREMENT PRIMARY KEY, "  +
+            "name VARCHAR(128) NOT NULL, " +
             "age INT NOT NULL, " +
-            "job_title NVARCHAR2(128) NOT NULL, "  +
-            "professional_title NVARCHAR2(128) NOT NULL, "  +
-            "dept NVARCHAR2(128) NOT NULL, " +
-            "contact_info NVARCHAR2(128) NOT NULL)");
+            "job_title VARCHAR(128) NOT NULL, "  +
+            "professional_title VARCHAR(128) NOT NULL, "  +
+            "dept VARCHAR(128) NOT NULL, " +
+            "contact_info VARCHAR(128) NOT NULL)");
             
-        statement.executeUpdate("CREATE TABLE doctor( "  +
-            "staff_id INT PRIMARY KEY, "  +
-            "specialist NVARCHAR2(128) "  +
-            " CONSTRAINT doctors_fk FOREIGN KEY(staff_id) REFERENCES staff(id) "  +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS doctor( "  +
+            "staff_id INT AUTO_INCREMENT PRIMARY KEY, "  +
+            "specialist VARCHAR(128), "  +
+            "CONSTRAINT doctor_fk FOREIGN KEY(staff_id) REFERENCES staff(id) "  +
             "ON DELETE CASCADE)");
             
-        statement.executeUpdate("CREATE TABLE nurse( "  +
-            "staff_id INT PRIMARY KEY, "  +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS nurse( "  +
+            "staff_id INT AUTO_INCREMENT PRIMARY KEY, "  +
             "CONSTRAINT nurse_fk FOREIGN KEY(staff_id) REFERENCES staff(id)  "  +
             "ON DELETE CASCADE)");
             
-        statement.executeUpdate("CREATE TABLE operator( "  +
-            "staff_id INT PRIMARY KEY, "  +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS operator( "  +
+            "staff_id INT AUTO_INCREMENT PRIMARY KEY, "  +
             "CONSTRAINT operator_fk FOREIGN KEY(staff_id) REFERENCES staff(id) "  +
             "ON DELETE CASCADE)");
             
-        statement.executeUpdate("CREATE TABLE patient( "  +
-            "patient_id INT PRIMARY KEY, "  +
-            "status NVARCHAR2(128) NOT NULL, "  +
-            "gender NVARCHAR2(128) NOT NULL, "  +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS patient( "  +
+            "patient_id INT AUTO_INCREMENT PRIMARY KEY, "  +
+            "status VARCHAR(128) NOT NULL, "  +
+            "gender VARCHAR(128) NOT NULL, "  +
             "ssn INT, "  +
-            "name NVARCHAR2(128) NOT NULL, "  +
-            "DOB NVARCHAR2(128) NOT NULL, "  +
+            "name VARCHAR(128) NOT NULL, "  +
+            "DOB VARCHAR(128) NOT NULL, "  +
             "age INT NOT NULL, "  +
-            "contact_info NVARCHAR2(128) NOT NULL)");
+            "contact_info VARCHAR(128) NOT NULL)");
             
-        statement.executeUpdate("CREATE TABLE medical_record( "  +
-            "record_num INT PRIMARY KEY, "  +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS medical_record( "  +
+            "record_num INT AUTO_INCREMENT PRIMARY KEY, "  +
             "res_doctor INT NOT NULL, "  +
-            "diagnosis_details NVARCHAR2(128), "  +
-            "prescription NVARCHAR2(128), "  +
-            "CONSTRAINT doctor_fk FOREIGN KEY(res_doctor) REFERENCES doctor(staff_id) "  +
+            "diagnosis_details VARCHAR(128), "  +
+            "prescription VARCHAR(128), "  +
+            "CONSTRAINT doctor_medical_fk FOREIGN KEY(res_doctor) REFERENCES doctor(staff_id) "  +
             "ON DELETE CASCADE )");
             
-        statement.executeUpdate("CREATE TABLE billing_account( "  +
-            "billing_id INT PRIMARY KEY, "  +
-            "billing_addr NVARCHAR2(128) NOT NULL, "  +
-            "payment_info NVARCHAR2(128) NOT NULL)");
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS billing_account( "  +
+            "billing_id INT AUTO_INCREMENT PRIMARY KEY, "  +
+            "billing_addr VARCHAR(128) NOT NULL, "  +
+            "payment_info VARCHAR(128) NOT NULL)");
             
-        statement.executeUpdate("CREATE TABLE ward( "  +
-            "ward_num INT PRIMARY KEY, "  +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS ward( "  +
+            "ward_num INT AUTO_INCREMENT PRIMARY KEY, "  +
             "charges_per_day INT NOT NULL, "  +
             "res_nurse INT NOT NULL, "  +
             "capacity INT NOT NULL, "  +
-            "CONSTRAINT nurse_fk FOREIGN KEY(res_nurse) REFERENCES nurse(staff_id)  "  +
+            "CONSTRAINT nurse_ward_fk FOREIGN KEY(res_nurse) REFERENCES nurse(staff_id)  "  +
             "ON DELETE CASCADE)");
             
-        statement.executeUpdate("CREATE TABLE bed( "  +
-            "bed_num INT PRIMARY KEY, "  +
-            "ward_num INT PRIMARY KEY, "  +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS bed( "  +
+            "bed_num INT AUTO_INCREMENT PRIMARY KEY, "  +
+            "ward_num INT, "  +
             "patient_id INT, "  +
-            "CONSTRAINT ward_fk FOREIGN KEY(ward_num) REFERENCES ward(ward_num)  "  +
-            "ON DELETE CASCADE "  +
-            "CONSTRAINT patient_fk FOREIGN KEY(patient_id) REFERENCES patient(patient_id)  "  +
+            "CONSTRAINT ward_bed_fk FOREIGN KEY(ward_num) REFERENCES ward(ward_num)  "  +
+            "ON DELETE CASCADE, "  +
+            "CONSTRAINT patient_bed_fk FOREIGN KEY(patient_id) REFERENCES patient(patient_id)  "  +
             "ON DELETE CASCADE)");
             
-        statement.executeUpdate("CREATE TABLE check_in_information( "  +
-            "check_in_id INT PRIMARY KEY, "  +
-            "start_date NVARCHAR2(128) NOT NULL, "  +
-            "end_date NVARCHAR2(128), "  +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS check_in_information( "  +
+            "check_in_id INT AUTO_INCREMENT PRIMARY KEY, "  +
+            "start_date VARCHAR(128) NOT NULL, "  +
+            "end_date VARCHAR(128), "  +
             "bed_num INT NOT NULL, "  +
             "ward_num INT NOT NULL, "  +
-            "CONSTRAINT bed_fk FOREIGN KEY(bed_num) REFERENCES bed(bed_num)  "  +
+            "CONSTRAINT bed_check_fk FOREIGN KEY(bed_num) REFERENCES bed(bed_num)  "  +
             "ON DELETE CASCADE, "  +
-            "CONSTRAINT ward_fk FOREIGN KEY(ward_num) REFERENCES ward(ward_num)  "  +
+            "CONSTRAINT ward_check_fk FOREIGN KEY(ward_num) REFERENCES ward(ward_num)  "  +
             "ON DELETE CASCADE)");
             
-        statement.executeUpdate("CREATE TABLE test( "  +
-            "test_id INT PRIMARY KEY, "  +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS test( "  +
+            "test_id INT AUTO_INCREMENT PRIMARY KEY, "  +
             "record_num INT NOT NULL, "  +
-            "test_name NVARCHAR2(128) NOT NULL, "  +
+            "test_name VARCHAR(128) NOT NULL, "  +
             "specialist INT NOT NULL, "  +
             "patient_id INT NOT NULL, "  +
-            "test_results NVARCHAR2(128) NOT NULL "  +
-            "CONSTRAINT specialist_fk FOREIGN KEY(specialist) REFERENCES doctor(staff_id)  "  +
-            "ON DELETE CASCADE "  +
-            "CONSTRAINT record_num_fk FOREIGN KEY(record_num) REFERENCES medical_record(record_num)  "  +
-            "ON DELETE CASCADE "  +
-            "CONSTRAINT patient_fk FOREIGN KEY(patient_id) REFERENCES patient(patient_id)  "  +
+            "test_results VARCHAR(128) NOT NULL, "  +
+            "CONSTRAINT specialist_test_fk FOREIGN KEY(specialist) REFERENCES doctor(staff_id)  "  +
+            "ON DELETE CASCADE, "  +
+            "CONSTRAINT record_num_test_fk FOREIGN KEY(record_num) REFERENCES medical_record(record_num)  "  +
+            "ON DELETE CASCADE, "  +
+            "CONSTRAINT patient_test_fk FOREIGN KEY(patient_id) REFERENCES patient(patient_id)  "  +
             "ON DELETE CASCADE)");
             
-        statement.executeUpdate("CREATE TABLE office_visit( "  +
-            "visit_num INT PRIMARY KEY "  +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS office_visit( "  +
+            "visit_num INT AUTO_INCREMENT PRIMARY KEY, "  +
             "record_num INT, "  +
-            "billling_id INT, "  +
+            "billing_id INT, "  +
             "check_in_id INT, "  +
             "patient_id INT, "  +
-            "CONSTRAINT record_num_fk FOREIGN KEY(record_num) REFERENCES medical_record(record_num)  "  +
+            "CONSTRAINT record_num_ov_fk FOREIGN KEY(record_num) REFERENCES medical_record(record_num)  "  +
             "ON DELETE CASCADE, "  +
-            "CONSTRAINT billing_fk FOREIGN KEY(billing_id) REFERENCES billing_accountf(billing_id)  "  +
+            "CONSTRAINT billing_ov_fk FOREIGN KEY(billing_id) REFERENCES billing_account(billing_id)  "  +
             "ON DELETE CASCADE, "  +
-            "CONSTRAINT check_in_fk FOREIGN KEY(check_in_id) REFERENCES check_in(check_in_id)  "  +
+            "CONSTRAINT check_in_ov_fk FOREIGN KEY(check_in_id) REFERENCES check_in_information(check_in_id)  "  +
             "ON DELETE CASCADE, "  +
-            "CONSTRAINT patient_fk FOREIGN KEY(patient_id) REFERENCES patient(patient_id)  "  +
+            "CONSTRAINT patient_ov_fk FOREIGN KEY(patient_id) REFERENCES patient(patient_id)  "  +
             "ON DELETE CASCADE)");
-            
-            statement.executeUpdate("CREATE SEQUENCE staff_seq MINVALUE 0 START WITH 0;");
-            statement.executeUpdate("CREATE SEQUENCE patient_seq MINVALUE 0 START WITH 0;");
-            statement.executeUpdate("CREATE SEQUENCE record_seq MINVALUE 0 START WITH 0;");
-            statement.executeUpdate("CREATE SEQUENCE billing_account_seq MINVALUE 0 START WITH 0;");
-            statement.executeUpdate("CREATE SEQUENCE ward_seq MINVALUE 0 START WITH 0;");
-            statement.executeUpdate("CREATE SEQUENCE bed_seq MINVALUE 0 START WITH 0;");
-            statement.executeUpdate("CREATE SEQUENCE check_in_seq MINVALUE 0 START WITH 0;");
-            statement.executeUpdate("CREATE SEQUENCE test_seq MINVALUE 0 START WITH 0;");
-            statement.executeUpdate("CREATE SEQUENCE office_visit_seq MINVALUE 0 START WITH 0;");
     }
 
     /**
@@ -225,35 +215,27 @@ public class WolfHospital{
                 System.out.println("That is not a valid role.  SPlease try again.");
                 logOn(statement, result);
             }
-        }
-
-        //TODO check if is is in the staff info then check which title they have to give them certain actions
-
-        if(/*Operator*/true){
-            operatorActions(statement, result);
-        }else if(/*Doctor*/true){
-            doctorActions(statement, result);
-        }else if(/*Specialist*/true){
-            specialistActions(statement, result);
-        }else if(/*Nurse*/true){
-            nurseActions(statement, result);                  
         } else {
-            System.out.println("Your ID was not found. Please try again");
-            logOn(statement, result);
+
+            //TODO check if is is in the staff info then check which title they have to give them certain actions
+
+            if(/*Operator*/true){
+                operatorActions(statement, result);
+            }else if(/*Doctor*/true){
+                doctorActions(statement, result);
+            }else if(/*Specialist*/true){
+                specialistActions(statement, result);
+            }else if(/*Nurse*/true){
+                nurseActions(statement, result);                  
+            } else {
+                System.out.println("Your ID was not found. Please try again");
+                logOn(statement, result);
+            }
         }
     }
 
-    /**
-     * This method is responsible for an operator's behavior. It will conintue to take requests
-     * from the operator until they decide to quit out. Operators can enter, update, and delete 
-     * staff and hospital information, check-in and check-out patients, reserve and release beds,
-     * and generate reports.
-     * 
-     * @param statement Sends sql statements to the DBMS 
-     * @param result Records the result of an SQL statement
-     */
     private static void operatorActions(Statement statement, ResultSet result){
-        System.out.println("operator Actions: enter, update, delete, check-in, check-out, reserve, release and reports");
+        System.out.println("Operator Actions: quit, enter, update, delete, check-in, check-out, reserve, release and reports");
         while(true){
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
@@ -492,7 +474,7 @@ public class WolfHospital{
                                 break;
                             }
                         }else if (option.equals("age")) {
-                            int age = Integeter.parseInt(scanner.next());
+                            int age = Integer.parseInt(scanner.next());
                             try {
                                 statement.executeUpdate("UPDATE patient SET age=" + age + " WHERE patient_id=" + id);
                             } catch (SQLException e) {
@@ -564,7 +546,7 @@ public class WolfHospital{
                         } else if (option.equals("contact")) {
                             String contact = scanner.next();
                             try {
-                                statement.executeUpdate("UPDATE staff SET contact_info=" + name + " WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET contact_info=" + contact + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -633,7 +615,7 @@ public class WolfHospital{
                         } else if (option.equals("contact")) {
                             String contact = scanner.next();
                             try {
-                                statement.executeUpdate("UPDATE staff SET contact_info=" + name + " WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET contact_info=" + contact + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -694,7 +676,7 @@ public class WolfHospital{
                         } else if (option.equals("contact")) {
                             String contact = scanner.next();
                             try {
-                                statement.executeUpdate("UPDATE staff SET contact_info=" + name + " WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET contact_info=" + contact + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -702,6 +684,7 @@ public class WolfHospital{
                         } else {
                             System.out.println("Invalid Input.");
                         }
+                    }
                 } else if(type.toLowerCase().equals("wards")){
                     System.out.println("Ward number for update: ");
                     int ward = Integer.parseInt(scanner.next());
@@ -765,29 +748,58 @@ public class WolfHospital{
                 if(type.toLowerCase().equals("patient")){
                     System.out.println("Patient id for deletion:");
                     int id = Integer.parseInt(scanner.next());
-                    statement.executeUpdate("DELETE FROM patient WHERE patient_id=" + id);
+                    try {
+                        statement.executeUpdate("DELETE FROM patient WHERE patient_id=" + id);
+                    } catch (SQLException e) {
+                        System.out.println("Error deleting patient.");
+                    }
+                    
                 } else if(type.toLowerCase().equals("doctor")){
                     System.out.println("doctor id for deletion:");
                     int id = Integer.parseInt(scanner.next());
-                    statement.executeUpdate("DELETE FROM doctor WHERE doctor_id=" + id);
+                     try {
+                        statement.executeUpdate("DELETE FROM doctor WHERE doctor_id=" + id);
+                    } catch (SQLException e) {
+                        System.out.println("Error deleting doctor.");
+                    }
+                    
                 } else if(type.toLowerCase().equals("nurse")){
                     System.out.println("nurse id for deletion:");
                     int id = Integer.parseInt(scanner.next());
-                    statement.executeUpdate("DELETE FROM nurse WHERE nurse_id=" + id);
+                     try {
+                        statement.executeUpdate("DELETE FROM nurse WHERE nurse_id=" + id);
+                    } catch (SQLException e) {
+                        System.out.println("Error deleting nurse.");
+                    }
                 } else if(type.toLowerCase().equals("operator")){
                     System.out.println("operator id for deletion:");
                     int id = Integer.parseInt(scanner.next());
-                    statement.executeUpdate("DELETE FROM operator WHERE operator_id=" + id);
+                    try {
+                        statement.executeUpdate("DELETE FROM operator WHERE operator_id=" + id);
+                    } catch (SQLException e) {
+                        System.out.println("Error deleting operator.");
+                    }
+                    
                 } else if(type.toLowerCase().equals("wards")){
                     System.out.println("ward num for deletion:");
                     int id = Integer.parseInt(scanner.next());
-                    statement.executeUpdate("DELETE FROM ward WHERE ward_num=" + id);
+                    try {
+                        statement.executeUpdate("DELETE FROM ward WHERE ward_num=" + id);
+                    } catch (SQLException e) {
+                        System.out.println("Error deleting ward.");
+                    }
+                    
                 } else if(type.toLowerCase().equals("bed")){
                     System.out.println("bed id for deletion:");
                     int bedid = Integer.parseInt(scanner.next());
                     System.out.println("ward num for deletion of bed");
                     int wardid = Integer.parseInt(scanner.next());
-                    statement.executeUpdate("DELETE FROM bed WHERE bed_id=" + bedid + "AND WHERE ward_num=" + wardid);
+                    try {
+                        statement.executeUpdate("DELETE FROM bed WHERE bed_id=" + bedid + "AND WHERE ward_num=" + wardid);
+                    } catch (SQLException e) {
+                        System.out.println("Error deleting bed.");
+                    }
+                    
                 } else {
                     System.out.println("Not a valid object to delete.");
                     continue;
@@ -797,17 +809,50 @@ public class WolfHospital{
                 String startdate = scanner.next();
                 System.out.println("end date:");
                 String enddate = scanner.next();
-                System.out.println("start date:");
-                String startdate = scanner.next();
-                System.out.println("start date:");
-                String startdate = scanner.next();
+                System.out.println("bed number:");
+                int bed = Integer.parseInt(scanner.next());
+                System.out.println("ward number:");
+                int ward= Integer.parseInt(scanner.next());
+                try {
+                    statement.executeUpdate("INSERT INTO check_in_information(check_in_id, start_date, end_date, bed_num, ward_num) VALUES (check_in_seq.nextval," + startdate + "," + enddate + "," + bed + "," + ward + ")");
+                } catch (SQLException e) {
+                    System.out.println("Error creating check_in");
+                }
                 
             } else if(action.toLowerCase().equals("check-out")){
-                
+                System.out.println("Check in information ID:");
+                int id = Integer.parseInt(scanner.next());
+                System.out.println("date: ");
+                String enddate = scanner.next();
+                try {
+                    statement.executeUpdate("UPDATE check_in_information SET end_date=" + enddate + " WHERE check_in_id=" + id);
+                } catch (SQLException e) {
+                    System.out.println("Error checking out");
+                }
             } else if(action.toLowerCase().equals("reserve")){
-                
+                System.out.println("Patient id for reserving bed:");
+                int patid = Integer.parseInt(scanner.next());
+                System.out.println("bed num for reservation:");
+                int bednum = Integer.parseInt(scanner.next());
+                System.out.println("ward num for reservation");
+                int wardnum = Integer.parseInt(scanner.next());
+                try {
+                    statement.executeUpdate("UPDATE bed patient_id=" + patid + "WHERE bed_num =" + bednum + "AND WHERE ward_num=" + wardnum + "AND patient_id=NULL"); 
+                } catch (SQLException e) {
+                    System.out.println("Error reserving bed.");
+                }
             } else if(action.toLowerCase().equals("release")){
-                
+                System.out.println("Patient id for release:");
+                int patid = Integer.parseInt(scanner.next());
+                System.out.println("bed num for release:");
+                int bednum = Integer.parseInt(scanner.next());
+                System.out.println("ward num for release");
+                int wardnum = Integer.parseInt(scanner.next());
+                try {
+                    statement.executeUpdate("UPDATE bed patient_id=NULL WHERE bed_num =" + bednum + "AND WHERE ward_num=" + wardnum); 
+                } catch (SQLException e) {
+                    System.out.println("Error reserving bed.");
+                }
             } else if(action.toLowerCase().equals("reports")){
                 String type = scanner.next();
                 if(type.toLowerCase().equals("history")){
@@ -865,7 +910,7 @@ public class WolfHospital{
                 
             } else if(action.toLowerCase().equals("recommend")){
                 System.out.println("Patient Id for recommendation:");
-                String action = scanner.next();
+                String id = scanner.next();
             } else if(action.toLowerCase().equals("reports")){
                 String type = scanner.next();
                 if(type.toLowerCase().equals("history")){
