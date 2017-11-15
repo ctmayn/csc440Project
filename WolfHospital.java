@@ -28,7 +28,7 @@ public class WolfHospital{
 
         setupTables(statement);
 
-        logOn(statement, result);
+        actions(statement, result);
 
         } catch(Throwable oops) {
             oops.printStackTrace();
@@ -91,18 +91,18 @@ public class WolfHospital{
             "contact_info VARCHAR(128) NOT NULL)");
             
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS doctor( "  +
-            "staff_id INT AUTO_INCREMENT PRIMARY KEY, "  +
+            "staff_id INT PRIMARY KEY, "  +
             "specialist VARCHAR(128), "  +
             "CONSTRAINT doctor_fk FOREIGN KEY(staff_id) REFERENCES staff(id) "  +
             "ON DELETE CASCADE)");
             
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS nurse( "  +
-            "staff_id INT AUTO_INCREMENT PRIMARY KEY, "  +
+            "staff_id INT PRIMARY KEY, "  +
             "CONSTRAINT nurse_fk FOREIGN KEY(staff_id) REFERENCES staff(id)  "  +
             "ON DELETE CASCADE)");
             
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS operator( "  +
-            "staff_id INT AUTO_INCREMENT PRIMARY KEY, "  +
+            "staff_id INT PRIMARY KEY, "  +
             "CONSTRAINT operator_fk FOREIGN KEY(staff_id) REFERENCES staff(id) "  +
             "ON DELETE CASCADE)");
             
@@ -187,60 +187,21 @@ public class WolfHospital{
             "ON DELETE CASCADE)");
     }
 
-    /**
-     * Logs the staff in to the system.  They can log in in multiple ways.  They can input thier
-     * staff id to log in or can specify thier role. After they are logged in, they are then taken
-     * to their actions based off of thier role or ID.
-     * 
-     * @param statement Sends sql statements to the DBMS
-     * @param result Stores the results of SQL statements
-     */
-    private static void logOn(Statement statement, ResultSet result){
-        System.out.println("Please Enter Staff ID or type ROLE to specify role: ");
-        String input = scanner.next();
-
-        //Alternative log in so that staff can use the program without being in the database.  Good for fresh starts.
-        if(input.toLowerCase().equals("role")){
-            System.out.println("Are you a DOCTOR, NURSE, SPECIALIST, or OPERATOR?");
-            input = scanner.next();
-            if(input.toLowerCase().equals("operator")){
-                operatorActions(statement, result);
-            }else if(input.toLowerCase().equals("doctor")){
-                doctorActions(statement, result);
-            }else if(input.toLowerCase().equals("specialist")){
-                specialistActions(statement, result);
-            }else if(input.toLowerCase().equals("nurse")){
-                nurseActions(statement, result);                  
-            } else {
-                System.out.println("That is not a valid role.  SPlease try again.");
-                logOn(statement, result);
-            }
-        } else {
-
-            //TODO check if is is in the staff info then check which title they have to give them certain actions
-
-            if(/*Operator*/true){
-                operatorActions(statement, result);
-            }else if(/*Doctor*/true){
-                doctorActions(statement, result);
-            }else if(/*Specialist*/true){
-                specialistActions(statement, result);
-            }else if(/*Nurse*/true){
-                nurseActions(statement, result);                  
-            } else {
-                System.out.println("Your ID was not found. Please try again");
-                logOn(statement, result);
-            }
-        }
-    }
-
-    private static void operatorActions(Statement statement, ResultSet result){
-        System.out.println("Operator Actions: quit, enter, update, delete, check-in, check-out, reserve, release and reports");
+    private static void actions(Statement statement, ResultSet result){
+        System.out.println("Hello and Welcome to the Wolf Hospital System!");
         while(true){
+            System.out.println("Your actions are: \n<Enter> info about patients, staff, and wards." +
+            "\n<Update> info about patients, staff, and wards."+
+            "\n<Delete> info about patients, staff, and wards." + 
+            "\n<Check-in> patients." + 
+            "\n<Check-out> patients." + 
+            "\n<Reserve> beds for patients" + "Release reservations for beds for patients." + 
+            "\nGerneate <reports>.");
             String action = scanner.next();
             if(action.toLowerCase().equals("quit")){
                 return;
             } else if(action.toLowerCase().equals("enter")){
+                System.out.println("Choices for entering info: Patient, Doctor, Nurse, Operator, Ward, or Bed.");
                 String type = scanner.next();
                 if(type.toLowerCase().equals("patient")){
                     int social;
@@ -425,6 +386,7 @@ public class WolfHospital{
                     continue;
                 }
             } else if(action.toLowerCase().equals("update")){
+                System.out.println("Choices for updating info: Patient, Doctor, Nurse, Operator, Ward, or Bed.");
                 String type = scanner.next();
                 if(type.toLowerCase().equals("patient")){
                     System.out.println("Patient ID for update: ");
@@ -744,6 +706,7 @@ public class WolfHospital{
                     continue;
                 }
             } else if(action.toLowerCase().equals("delete")){
+                System.out.println("Choices for deleting info: Patient, Doctor, Nurse, Operator, Ward, or Bed.");
                 String type = scanner.next();
                 if(type.toLowerCase().equals("patient")){
                     System.out.println("Patient id for deletion:");
@@ -885,174 +848,6 @@ public class WolfHospital{
                 }
             } else {
                 System.out.println("Not a valid operator action");
-                continue;
-            }
-        }
-    }
-
-    /**
-     * This method is responsible for a doctor's behavior. It will conintue to take requests
-     * from the doctor until they decide to quit out. Doctors can treat patients, recommend tests,
-     *  and generate reports.
-     * 
-     * @param statement Sends sql statements to the DBMS 
-     * @param result Records the result of an SQL statement
-     */
-    private static void doctorActions(Statement statement, ResultSet result){
-        //Output here explaining options
-        System.out.println("Doctor Options: quit, treat, recommend and report");
-        while(true){
-            String action = scanner.next();
-            if(action.toLowerCase().equals("quit")){
-                return;
-            //I think only specialists treat?
-            } else if(action.toLowerCase().equals("treat")){
-                
-            } else if(action.toLowerCase().equals("recommend")){
-                System.out.println("Patient Id for recommendation:");
-                String id = scanner.next();
-            } else if(action.toLowerCase().equals("reports")){
-                String type = scanner.next();
-                if(type.toLowerCase().equals("history")){
-                    
-                } else if(type.toLowerCase().equals("wards")){
-                
-                } else if(type.toLowerCase().equals("ppm")){
-                    
-                } else if(type.toLowerCase().equals("wup")){
-                    
-                } else if(type.toLowerCase().equals("doctor")){
-                    
-                } else if(type.toLowerCase().equals("staff")){
-                    String staff = scanner.next();
-                    if(staff.toLowerCase().equals("doctor")){
-                    
-                    } else if(staff.toLowerCase().equals("specialist")){
-                        
-                    } else if(staff.toLowerCase().equals("nurse")){
-                        
-                    } else if(staff.toLowerCase().equals("operator")){
-                        
-                    } else {
-                        System.out.println("Not a staff member.");
-                        continue;
-                    }
-                } else {
-                    System.out.println("Not a valid report");
-                    continue;
-                }
-            } else {
-                System.out.println("Not a valid doctor action");
-                continue;
-            }
-        }
-    }
-
-    /**
-     * This method is responsible for a specialist's behavior. It will conintue to take requests
-     * from the specialist until they decide to quit out. Specialists can treat patients, recommend tests,
-     * run tests, and generate reports.
-     * 
-     * @param statement Sends sql statements to the DBMS 
-     * @param result Records the result of an SQL statement
-     */
-    private static void specialistActions(Statement statement, ResultSet result){
-        //Output here explaining options
-        while(true){
-            String action = scanner.next();
-            if(action.toLowerCase().equals("quit")){
-                return;
-            } else if(action.toLowerCase().equals("treat")){
-                
-            } else if(action.toLowerCase().equals("recommend")){
-                
-            } else if(action.toLowerCase().equals("test")){
-                
-            } else if(action.toLowerCase().equals("reports")){
-                String type = scanner.next();
-                if(type.toLowerCase().equals("history")){
-                    
-                } else if(type.toLowerCase().equals("wards")){
-                
-                } else if(type.toLowerCase().equals("ppm")){
-                    
-                } else if(type.toLowerCase().equals("wup")){
-                    
-                } else if(type.toLowerCase().equals("doctor")){
-                    
-                } else if(type.toLowerCase().equals("staff")){
-                    String staff = scanner.next();
-                    if(staff.toLowerCase().equals("doctor")){
-                    
-                    } else if(staff.toLowerCase().equals("specialist")){
-                        
-                    } else if(staff.toLowerCase().equals("nurse")){
-                        
-                    } else if(staff.toLowerCase().equals("operator")){
-                        
-                    } else {
-                        System.out.println("Not a staff member.");
-                        continue;
-                    }
-                } else {
-                    System.out.println("Not a valid report");
-                    continue;
-                }
-            } else {
-                System.out.println("Not a valid specialist action");
-                continue;
-            }
-        }
-    }
-
-    /**
-     * This method is responsible for a nurse's behavior. It will conintue to take requests
-     * from the nurse's until they decide to quit out. Nurse's can treat patients and generate 
-     * reports.
-     * 
-     * @param statement Sends sql statements to the DBMS 
-     * @param result Records the result of an SQL statement
-     */
-    private static void nurseActions(Statement statement, ResultSet result){
-        //output here explaining options
-        while(true){
-            String action = scanner.next();
-            if(action.toLowerCase().equals("quit")){
-                return;
-            } else if(action.toLowerCase().equals("treat")){
-                
-            } else if(action.toLowerCase().equals("reports")){
-                String type = scanner.next();
-                if(type.toLowerCase().equals("history")){
-                    
-                } else if(type.toLowerCase().equals("wards")){
-                
-                } else if(type.toLowerCase().equals("ppm")){
-                    
-                } else if(type.toLowerCase().equals("wup")){
-                    
-                } else if(type.toLowerCase().equals("doctor")){
-                    
-                } else if(type.toLowerCase().equals("staff")){
-                    String staff = scanner.next();
-                    if(staff.toLowerCase().equals("doctor")){
-                    
-                    } else if(staff.toLowerCase().equals("specialist")){
-                        
-                    } else if(staff.toLowerCase().equals("nurse")){
-                        
-                    } else if(staff.toLowerCase().equals("operator")){
-                        
-                    } else {
-                        System.out.println("Not a staff member.");
-                        continue;
-                    }
-                } else {
-                    System.out.println("Not a valid report");
-                    continue;
-                }
-            } else {
-                System.out.println("Not a valid nurse action");
                 continue;
             }
         }
