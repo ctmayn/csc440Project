@@ -11,9 +11,9 @@ import java.util.*;
  * @author Daniel Deans
  * @author Caeman Toombs
  */
-public class WolfHospital{}
-    private static final String user = "";
-    private static final String password = "";
+public class WolfHospital{
+    private static final String user = "ctmaynar";
+    private static final String password = "y69o53";
     private static final String jdbcURL = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/" + user;
 
     private static Scanner scanner = null;
@@ -205,7 +205,7 @@ public class WolfHospital{}
      * @param statement Sends sql statements to the DBMS 
      * @param result Records the result of an SQL statement
      */
-    private static void actions(Statement statement, ResultSet result){
+    private static void actions(Statement statement, ResultSet result) throws SQLException{
         System.out.println("Hello and Welcome to the Wolf Hospital System!");
         while(true){
             System.out.println("Your actions are: \n<Enter> info about patients, staff, and wards." +
@@ -214,7 +214,7 @@ public class WolfHospital{}
             "\n<Check-in> patients." + 
             "\n<Check-out> patients." + 
             "\n<Reserve> beds for patients." + 
-            "\nRelease reservations for beds for patients." + 
+            "\n<Release> reservations for beds for patients." + 
             "\nGerneate <reports>." + 
             "\n<Quit>.");
             String action = scanner.next();
@@ -852,7 +852,8 @@ public class WolfHospital{}
                     System.out.println("Error reserving bed.");
                 }
             } else if(action.toLowerCase().equals("reports")){
-                String type = scanner.next();
+                System.out.println("What report? Patient <history>, <ward> status, patients per month<ppm>, ward-usage percentage<wup>, a <doctor>'s patients, <staff> info."); 
+                String type = scanner.next();                               
                 if(type.toLowerCase().equals("history")){
                     
                 } else if(type.toLowerCase().equals("wards")){
@@ -862,17 +863,62 @@ public class WolfHospital{}
                 } else if(type.toLowerCase().equals("wup")){
                     
                 } else if(type.toLowerCase().equals("doctor")){
+                    System.out.println("What is the doctor's staff id?");
+                    int id = scanner.nextInt();
                     
                 } else if(type.toLowerCase().equals("staff")){
+                    System.out.println("Choose a type: Doctor, Specialist, Nurse, Operator.");
                     String staff = scanner.next();
                     if(staff.toLowerCase().equals("doctor")){
-                    
+                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info, doctor.specialist FROM doctor JOIN staff ON doctor.staff_id = staff.id");
+                        while (result.next()) {
+                            int id = result.getInt("staff.id");
+                            String name = result.getString("staff.name");
+                            int age = result.getInt("staff.age");
+                            String job_title = result.getString("staff.job_title");
+                            String professional_title = result.getString("staff.professional_title");
+                            String dept = result.getString("staff.dept");
+                            String contact_info = result.getString("staff.contact_info");
+                            String specialist = result.getString("doctor.specialist");
+                            System.out.println(id + " " + name + " " + age + " " + job_title + " " + professional_title + " " + dept + " " + contact_info + " " + specialist );
+                        }
                     } else if(staff.toLowerCase().equals("specialist")){
-                        
+                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info, doctor.specialist FROM doctor JOIN staff ON doctor.staff_id = staff.id WHERE doctor.specialist IS NOT NULL");
+                        while (result.next()) {
+                            int id = result.getInt("staff.id");
+                            String name = result.getString("staff.name");
+                            int age = result.getInt("staff.age");
+                            String job_title = result.getString("staff.job_title");
+                            String professional_title = result.getString("staff.professional_title");
+                            String dept = result.getString("staff.dept");
+                            String contact_info = result.getString("staff.contact_info");
+                            String specialist = result.getString("doctor.specialist");
+                            System.out.println(id + " " + name + " " + age + " " + job_title + " " + professional_title + " " + dept + " " + contact_info + " " + specialist );
+                        }
                     } else if(staff.toLowerCase().equals("nurse")){
-                        
+                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info FROM nurse JOIN staff ON nurse.staff_id = staff.id");
+                        while (result.next()) {
+                            int id = result.getInt("staff.id");
+                            String name = result.getString("staff.name");
+                            int age = result.getInt("staff.age");
+                            String job_title = result.getString("staff.job_title");
+                            String professional_title = result.getString("staff.professional_title");
+                            String dept = result.getString("staff.dept");
+                            String contact_info = result.getString("staff.contact_info");
+                            System.out.println(id + " " + name + " " + age + " " + job_title + " " + professional_title + " " + dept + " " + contact_info);
+                        }
                     } else if(staff.toLowerCase().equals("operator")){
-                        
+                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info FROM nurse JOIN staff ON operator.staff_id = staff.id");
+                        while (result.next()) {
+                            int id = result.getInt("staff.id");
+                            String name = result.getString("staff.name");
+                            int age = result.getInt("staff.age");
+                            String job_title = result.getString("staff.job_title");
+                            String professional_title = result.getString("staff.professional_title");
+                            String dept = result.getString("staff.dept");
+                            String contact_info = result.getString("staff.contact_info");
+                            System.out.println(id + " " + name + " " + age + " " + job_title + " " + professional_title + " " + dept + " " + contact_info);
+                        }
                     } else {
                         System.out.println("Not a staff member.");
                         continue;
