@@ -940,9 +940,31 @@ public class WolfHospital{
                         System.out.println("Ward Number: " + ward_num + "  Bed Number: " + bed_num + "Patient ID: " + patient_id);
                     }
                 } else if(type.toLowerCase().equals("ppm")){
+                    System.out.println("start date:");
+                    String start = scanner.next();
+                    System.out.println("end date:");
+                    String end = scanner.next();
+                    try {
+                        result = statement.executeQuery("SELECT COUNT(*) as patients FROM check_in_information WHERE start_date > " + start + " AND end_date < " + end);
+                        System.out.println("patients per month: " + result.getInt("patients"));
+                    } catch (SQLException e) {
+                        System.out.println("Error getting patients per month");
+                    }
                     
                 } else if(type.toLowerCase().equals("wup")){
-                    
+                    System.out.println("Which ward do you want the percentage usage for? <id>: ");
+                    int ward = scanner.nextInt();
+                    try {
+                        result = statement.executeQuery("Select Count(*) as total, capacity FROM ward WHERE patient_id != NULL");
+                        while (result.next()) {
+                            int total = result.getInt("total");
+                            int capacity = result.getInt("ward.capacity");
+                            double print = total / capacity;
+                            System.out.println("Ward percentage usage for: " + ward + " is " + print);
+                        }
+                    } catch (SQLException e) {
+                        System.out.println("Error getting percentage for that ward.");
+                    }
                 } else if(type.toLowerCase().equals("doctor")){
                     System.out.println("What is the doctor's staff id?");
                     int id = scanner.nextInt();
