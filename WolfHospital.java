@@ -157,8 +157,8 @@ public class WolfHospital{
             
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS check_in_information( "  +
             "check_in_id INT AUTO_INCREMENT PRIMARY KEY, "  +
-            "start_date VARCHAR(128) NOT NULL, "  +
-            "end_date VARCHAR(128), "  +
+            "start_date DATE NOT NULL, "  +
+            "end_date DATE, "  +
             "bed_num INT NOT NULL, "  +
             "ward_num INT NOT NULL, "  +
             "CONSTRAINT bed_check_fk FOREIGN KEY(bed_num) REFERENCES bed(bed_num)  "  +
@@ -280,12 +280,8 @@ public class WolfHospital{
                         department = scanner.next();
                         System.out.println("Contact Info: ");
                         contact = scanner.next();
-                        System.out.println("Specialist: ");
+                        System.out.println("Specialist? (Yes/No): ");
                         specialist = scanner.next();
-                        if(specialist.isEmpty()){
-                            specialist = "NULL";
-                        }
-                        
                     } catch (Exception e) {
                         System.out.println("Invalid Input.");
                         break;
@@ -795,7 +791,7 @@ public class WolfHospital{
                     System.out.println("ward num for deletion of bed");
                     int wardid = scanner.nextInt();
                     try {
-                        statement.executeUpdate("DELETE FROM bed WHERE bed_id=" + bedid + "AND WHERE ward_num=" + wardid);
+                        statement.executeUpdate("DELETE FROM bed WHERE bed_num=" + bedid + "AND WHERE ward_num=" + wardid);
                     } catch (SQLException e) {
                         System.out.println("Error deleting bed.");
                     }
@@ -805,10 +801,8 @@ public class WolfHospital{
                     continue;
                 }
             } else if(action.toLowerCase().equals("check-in")){
-                System.out.println("start date:");
+                System.out.println("Check-in Date (YYYY-MM-DD):");
                 String startdate = scanner.next();
-                System.out.println("end date:");
-                String enddate = scanner.next();
                 System.out.println("bed number:");
                 int bed = scanner.nextInt();
                 System.out.println("ward number:");
@@ -816,7 +810,7 @@ public class WolfHospital{
                 System.out.println("patient id number:");
                 int patient= scanner.nextInt();
                 try {
-                    statement.executeUpdate("INSERT INTO check_in_information( start_date, end_date, bed_num, ward_num) VALUES ('" + startdate + "','" + enddate + "','" + bed + "','" + ward + "')'");
+                    statement.executeUpdate("INSERT INTO check_in_information( start_date, end_date, bed_num, ward_num) VALUES ('" + startdate + "', NULL,'" + bed + "','" + ward + "')'");
                     result = statement.executeQuery("SELECT MAX(id) AS max_id FROM check_in_information");
                     result.next();
                     int id = result.getInt("max_id");
@@ -829,7 +823,7 @@ public class WolfHospital{
                 System.out.println("Office Visit ID:");
                 int id = scanner.nextInt();
 
-                System.out.println("Check-out date: ");
+                System.out.println("Check-out date (YYYY-MM-DD): ");
                 String enddate = scanner.next();
 
                 System.out.println("Medical Record Info");
@@ -862,9 +856,31 @@ public class WolfHospital{
                     result.next();
                     int billing_id = result.getInt("max_id");
                     statement.executeUpdate("UPDATE office_visit SET record_num=" + record_num + ", billing_id = " + billing_id + " WHERE visit_num = " + id);
+
+                    System.out.println("Was a test run? (Yes/No)");
+                    String test = scanner.next();
+                    if(test.toLowerCase().startsWith("y")){
+        
+                        System.out.println("Test Name: ");
+                        String test_name = scanner.next();
+        
+                        System.out.println("Specialist:");
+                        int specialist_id = scanner.nextInt();
+        
+                        System.out.println("Test Results:");
+                        String test_results = scanner.next();
+                        
+                        result = statement.executeQuery("SELECT patient_id FROM office_visit WHERE vist_num = " + id);
+                        result.next();
+                        int patient_id = result.getInt("patient_id");
+
+                        statement.executeUpdate("INSERT INTO test( record_num, test_name, specialist, patient_id, test_results) VALUES ('" + record_num + "','" + test_name + "','" + specialist_id +"','" + patient_id + "','" + test_results + "')'");
+                    }
                 } catch (SQLException e) {
                     System.out.println("Error checking out");
                 }
+                
+
             } else if(action.toLowerCase().equals("reserve")){
                 System.out.println("Patient id for reserving bed:");
                 int patid = scanner.nextInt();
@@ -878,8 +894,6 @@ public class WolfHospital{
                     System.out.println("Error reserving bed.");
                 }
             } else if(action.toLowerCase().equals("release")){
-                System.out.println("Patient id for release:");
-                int patid = scanner.nextInt();
                 System.out.println("bed num for release:");
                 int bednum = scanner.nextInt();
                 System.out.println("ward num for release");
@@ -893,9 +907,38 @@ public class WolfHospital{
                 System.out.println("What report? Patient <history>, <ward> status, patients per month<ppm>, ward-usage percentage<wup>, a <doctor>'s patients, <staff> info."); 
                 String type = scanner.next();                               
                 if(type.toLowerCase().equals("history")){
-                    
+                    System.out.println("What is the patient's id?");
+                    int id = scanner.nextInt();
+
+                    System.out.println("Beginning Check-in Date (YYYY-MM-DD):");
+                    String startdate = scanner.next();
+
+                    System.out.println("Ending Check-in Date (YYYY-MM-DD):");
+                    String enddate = scanner.next();
+
+                    result = statement.executeQuery("SELECT medical_record.record_number, medical_record.res_doctor, medical_record.diagnosis_details, medical_record.prescription, test.test_name, test.specialist, test.test_results" +
+                    "JOIN medical_record ON office_vist.record_num = medical_record.record_num " +
+                    "JOIN check_in_information ON office_visit.check_in_id = check_in_information.check_in_id " +
+                    "LEFT JOIN test ON medical_record.record_num = test.record_num" +
+                    "WHERE office_vist.patient_id = "+ id + " && check_in_id.start_date >= " + startdate + " && check_in_id.start_date <= " + enddate + " )");
+                    while (result.next()) {
+                        int record_num = result.getInt("medical_record.record_number");
+                        String res_doctor = result.getString("medical_record.res_doctor");
+                        String diagnosis_details = result.getString("medical_record.diagnosis_details");
+                        String prescription = result.getString("medical_record.prescription");
+                        String test_name = result.getString("test.test_name");
+                        int specialist = result.getInt("test.specialist");
+                        String test_results = result.getString("test.test_results");
+                        System.out.println("Record Number: " + record_num + "  Responsible Doctor" + res_doctor + "  Diagnosis Detials:" + diagnosis_details + "  Prescription: " + prescription + "  Test Name: " + test_name + "  Test Specialist: " + specialist + "  Test Results: " + test_results );
+                    }
                 } else if(type.toLowerCase().equals("wards")){
-                
+                    result = statement.executeQuery("SELECT * FROM bed");
+                    while (result.next()) {
+                        int ward_num = result.getInt("bed.ward_num");
+                        int bed_num = result.getInt("bed.bed_num");
+                        int patient_id = result.getInt("bed.patient_id");
+                        System.out.println("Ward Number: " + ward_num + "  Bed Number: " + bed_num + "Patient ID: " + patient_id);
+                    }
                 } else if(type.toLowerCase().equals("ppm")){
                     
                 } else if(type.toLowerCase().equals("wup")){
@@ -905,10 +948,10 @@ public class WolfHospital{
                     int id = scanner.nextInt();
                     
                 } else if(type.toLowerCase().equals("staff")){
-                    System.out.println("Choose a type: Doctor, Specialist, Nurse, Operator.");
+                    System.out.println("Choose a type: Doctor,  Nurse, Operator.");
                     String staff = scanner.next();
                     if(staff.toLowerCase().equals("doctor")){
-                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info, doctor.specialist FROM doctor JOIN staff ON doctor.staff_id = staff.id");
+                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info, doctor.specialist FROM doctor INNER JOIN staff ON doctor.staff_id = staff.id");
                         while (result.next()) {
                             int id = result.getInt("staff.id");
                             String name = result.getString("staff.name");
@@ -918,23 +961,10 @@ public class WolfHospital{
                             String dept = result.getString("staff.dept");
                             String contact_info = result.getString("staff.contact_info");
                             String specialist = result.getString("doctor.specialist");
-                            System.out.println(id + " " + name + " " + age + " " + job_title + " " + professional_title + " " + dept + " " + contact_info + " " + specialist );
-                        }
-                    } else if(staff.toLowerCase().equals("specialist")){
-                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info, doctor.specialist FROM doctor JOIN staff ON doctor.staff_id = staff.id WHERE doctor.specialist IS NOT NULL");
-                        while (result.next()) {
-                            int id = result.getInt("staff.id");
-                            String name = result.getString("staff.name");
-                            int age = result.getInt("staff.age");
-                            String job_title = result.getString("staff.job_title");
-                            String professional_title = result.getString("staff.professional_title");
-                            String dept = result.getString("staff.dept");
-                            String contact_info = result.getString("staff.contact_info");
-                            String specialist = result.getString("doctor.specialist");
-                            System.out.println(id + " " + name + " " + age + " " + job_title + " " + professional_title + " " + dept + " " + contact_info + " " + specialist );
+                            System.out.println("ID: " + id + "  Name: " + name + "  Age: " + age + "  Job Title: " + job_title + " Professional Title: " + professional_title + "  Department: " + dept + "  Contact Info: " + contact_info + "  Specialist:  " + specialist );
                         }
                     } else if(staff.toLowerCase().equals("nurse")){
-                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info FROM nurse JOIN staff ON nurse.staff_id = staff.id");
+                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info FROM nurse INNER JOIN staff ON nurse.staff_id = staff.id");
                         while (result.next()) {
                             int id = result.getInt("staff.id");
                             String name = result.getString("staff.name");
@@ -943,10 +973,10 @@ public class WolfHospital{
                             String professional_title = result.getString("staff.professional_title");
                             String dept = result.getString("staff.dept");
                             String contact_info = result.getString("staff.contact_info");
-                            System.out.println(id + " " + name + " " + age + " " + job_title + " " + professional_title + " " + dept + " " + contact_info);
+                            System.out.println("ID: " + id + "  Name: " + name + "  Age: " + age + "  Job Title: " + job_title + " Professional Title: " + professional_title + "  Department: " + dept + "  Contact Info: " + contact_info);
                         }
                     } else if(staff.toLowerCase().equals("operator")){
-                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info FROM nurse JOIN staff ON operator.staff_id = staff.id");
+                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info FROM nurse INNER JOIN staff ON operator.staff_id = staff.id");
                         while (result.next()) {
                             int id = result.getInt("staff.id");
                             String name = result.getString("staff.name");
@@ -955,7 +985,7 @@ public class WolfHospital{
                             String professional_title = result.getString("staff.professional_title");
                             String dept = result.getString("staff.dept");
                             String contact_info = result.getString("staff.contact_info");
-                            System.out.println(id + " " + name + " " + age + " " + job_title + " " + professional_title + " " + dept + " " + contact_info);
+                            System.out.println("ID: " + id + "  Name: " + name + "  Age: " + age + "  Job Title: " + job_title + " Professional Title: " + professional_title + "  Department: " + dept + "  Contact Info: " + contact_info);
                         }
                     } else {
                         System.out.println("Not a staff member.");
