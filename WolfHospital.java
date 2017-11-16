@@ -1071,7 +1071,7 @@ public class WolfHospital{
                             System.out.println("ID: " + id + "  Name: " + name + "  Age: " + age + "', '"+ gender + "  Job Title: " + job_title + " Professional Title: " + professional_title + "  Department: " + dept + "  Contact Info: " + contact_info);
                         }
                     } else if(staff.toLowerCase().equals("operator")){
-                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.gender, staff.job_title, staff.professional_title, staff.dept, staff.contact_info FROM nurse INNER JOIN staff ON operator.staff_id = staff.id");
+                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.gender, staff.job_title, staff.professional_title, staff.dept, staff.contact_info FROM operator INNER JOIN staff ON operator.staff_id = staff.id");
                         while (result.next()) {
                             int id = result.getInt("staff.id");
                             String name = result.getString("staff.name");
