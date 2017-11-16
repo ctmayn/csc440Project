@@ -94,7 +94,7 @@ public class WolfHospital{
             "id INT AUTO_INCREMENT PRIMARY KEY, "  +
             "name VARCHAR(128) NOT NULL, " +
             "age INT NOT NULL, " +
-            "gender VARCHAR(128)" + 
+            "gender VARCHAR(128) NOT NULL," + 
             "job_title VARCHAR(128) NOT NULL, "  +
             "professional_title VARCHAR(128) NOT NULL, "  +
             "dept VARCHAR(128) NOT NULL, " +
