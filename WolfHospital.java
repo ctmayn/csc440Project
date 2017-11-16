@@ -383,7 +383,7 @@ public class WolfHospital{
 						e.printStackTrace();
 					}
                     
-                } else if(type.toLowerCase().equals("wards")){
+                } else if(type.toLowerCase().equals("ward")){
                     int charges;
                     int nurse;
                     int capacity;
@@ -573,7 +573,7 @@ public class WolfHospital{
                         } else if (option.equals("specialist")) {
                             String specialist = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE doctor SET specialist=" + specialist + " WHERE doctor_id=" + id);
+                                statement.executeUpdate("UPDATE doctor SET specialist=" + specialist + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating doctor");
                                 break;
@@ -807,7 +807,7 @@ public class WolfHospital{
                     int id = scanner.nextInt();
                     scanner.nextLine();
                      try {
-                        statement.executeUpdate("DELETE FROM doctor WHERE doctor_id=" + id);
+                        statement.executeUpdate("DELETE FROM doctor WHERE staff_id=" + id);
                     } catch (SQLException e) {
                         System.out.println("Error deleting doctor.");
                     }
@@ -817,7 +817,7 @@ public class WolfHospital{
                     int id = scanner.nextInt();
                     scanner.nextLine();
                      try {
-                        statement.executeUpdate("DELETE FROM nurse WHERE nurse_id=" + id);
+                        statement.executeUpdate("DELETE FROM nurse WHERE staff_id=" + id);
                     } catch (SQLException e) {
                         System.out.println("Error deleting nurse.");
                     }
