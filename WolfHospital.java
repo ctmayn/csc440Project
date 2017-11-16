@@ -208,6 +208,7 @@ public class WolfHospital{
      */
     private static void actions(Statement statement, ResultSet result) throws SQLException{
         System.out.println("Hello and Welcome to the Wolf Hospital System!");
+        //prompt user for commands
         while(true){
             System.out.println("Your actions are: \n<Enter> info about patients, staff, and wards." +
             "\n<Update> info about patients, staff, and wards."+
@@ -219,11 +220,15 @@ public class WolfHospital{
             "\nGenerate <reports>." + 
             "\n<Quit>.");
             String action = scanner.nextLine();
+            
+            //check commands for next steps
             if(action.toLowerCase().equals("quit")){
                 return;
+                //entering new data
             } else if(action.toLowerCase().equals("enter")){
                 System.out.println("Choices for entering info: Patient, Doctor, Nurse, Operator, Ward, or Bed.");
                 String type = scanner.nextLine();
+                //entering a new patient
                 if(type.toLowerCase().equals("patient")){
                     int social;
                     String status;
@@ -258,7 +263,7 @@ public class WolfHospital{
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    
+                    //entering a new doctor
                 } else if(type.toLowerCase().equals("doctor")){
                     String name;
                     int age;
@@ -302,7 +307,7 @@ public class WolfHospital{
                         statement.executeUpdate("ROLLBACK;");
                         e.printStackTrace();
                     }
-                
+                //enter a new nurse
                 } else if(type.toLowerCase().equals("nurse")){
                     String name;
                     int age;
@@ -344,7 +349,7 @@ public class WolfHospital{
 						e.printStackTrace();
 					}
                         
-                    
+                //enter a new operator
                 } else if(type.toLowerCase().equals("operator")){
                     String name;
                     int age;
@@ -382,7 +387,7 @@ public class WolfHospital{
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-                    
+                //enter a new ward
                 } else if(type.toLowerCase().equals("ward")){
                     int charges;
                     int nurse;
@@ -406,6 +411,7 @@ public class WolfHospital{
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
+                    //enter a new bed
                 } else if(type.toLowerCase().equals("bed")){
                     int ward;
                     int patient;
@@ -430,9 +436,11 @@ public class WolfHospital{
                     System.out.println("Not a valid object to enter information about.");
                     continue;
                 }
+            //update option for updating existing information
             } else if(action.toLowerCase().equals("update")){
                 System.out.println("Choices for updating info: Patient, Doctor, Nurse, Operator, Ward, or Bed.");
                 String type = scanner.nextLine();
+                //updating the patient information
                 if(type.toLowerCase().equals("patient")){
                     System.out.println("Patient ID for update: ");
                     int id = scanner.nextInt();
@@ -504,6 +512,7 @@ public class WolfHospital{
                             System.out.println("Invalid Input. Try again");
                         }
                     }
+                //updating a doctors information
                 } else if(type.toLowerCase().equals("doctor")){
                     System.out.println("doctor/staff ID for update: ");
                     int id = scanner.nextInt();
@@ -582,7 +591,7 @@ public class WolfHospital{
                             System.out.println("Invalid Input.");
                         }
                     }
-                
+                //updating nurse information
                 } else if(type.toLowerCase().equals("nurse")){
                     System.out.println("nurse/staff ID for update: ");
                     int id = scanner.nextInt();
@@ -654,7 +663,7 @@ public class WolfHospital{
                             System.out.println("Invalid Input.");
                         }
                     }
-                    
+                //updating operator information
                 } else if(type.toLowerCase().equals("operator")){
                     System.out.println("Operator/staff ID for update: ");
                     int id = scanner.nextInt();
@@ -725,6 +734,7 @@ public class WolfHospital{
                             System.out.println("Invalid Input.");
                         }
                     }
+                //updating ward information
                 } else if(type.toLowerCase().equals("ward")){
                     System.out.println("Ward number for update: ");
                     int ward = scanner.nextInt();
@@ -763,6 +773,7 @@ public class WolfHospital{
                     } else {
                         System.out.println("Invalid Input");
                     }
+                //updating bed information
                 } else if(type.toLowerCase().equals("bed")){
                     System.out.println("Bed number for update: ");
                     int bed = scanner.nextInt();
@@ -790,6 +801,7 @@ public class WolfHospital{
                     System.out.println("Not a valid object to update information about.");
                     continue;
                 }
+            //delete data from the database
             } else if(action.toLowerCase().equals("delete")){
                 System.out.println("Choices for deleting info: Patient, Doctor, Nurse, Operator, Ward, or Bed.");
                 String type = scanner.nextLine();
@@ -859,6 +871,7 @@ public class WolfHospital{
                     System.out.println("Not a valid object to delete.");
                     continue;
                 }
+            //check in for an office visit
             } else if(action.toLowerCase().equals("check-in")){
                 System.out.println("Check-in Date (YYYY-MM-DD):");
                 String startdate = scanner.nextLine();
@@ -880,7 +893,7 @@ public class WolfHospital{
                 } catch (SQLException e) {
                     System.out.println("Error creating check_in");
                 }
-                
+            //check out for an office visit
             } else if(action.toLowerCase().equals("check-out")){
                 System.out.println("Office Visit ID:");
                 int id = scanner.nextInt();
@@ -945,7 +958,7 @@ public class WolfHospital{
                     System.out.println("Error checking out");
                 }
                 
-
+            //reserving a bed in a ward
             } else if(action.toLowerCase().equals("reserve")){
                 System.out.println("Patient id for reserving bed:");
                 int patid = scanner.nextInt();
@@ -961,6 +974,7 @@ public class WolfHospital{
                 } catch (SQLException e) {
                     System.out.println("Error reserving bed.");
                 }
+            //releasing a patient from a ward
             } else if(action.toLowerCase().equals("release")){
                 System.out.println("bed num for release:");
                 int bednum = scanner.nextInt();
@@ -973,9 +987,11 @@ public class WolfHospital{
                 } catch (SQLException e) {
                     System.out.println("Error releasing bed.");
                 }
+            //reports section
             } else if(action.toLowerCase().equals("reports")){
                 System.out.println("What report? Patient <history>, <ward> status, patients per month<ppm>, ward-usage percentage<wup>, a <doctor>'s patients, <staff> info."); 
-                String type = scanner.nextLine();                               
+                String type = scanner.nextLine();
+                //reports the patients history
                 if(type.toLowerCase().equals("history")){
                     System.out.println("What is the patient's id?");
                     int id = scanner.nextInt();
@@ -1002,6 +1018,7 @@ public class WolfHospital{
                         String test_results = result.getString("test.test_results");
                         System.out.println("Record Number: " + record_num + "  Responsible Doctor" + res_doctor + "  Diagnosis Detials:" + diagnosis_details + "  Prescription: " + prescription + "  Test Name: " + test_name + "  Test Specialist: " + specialist + "  Test Results: " + test_results );
                     }
+                //reports the ward status
                 } else if(type.toLowerCase().equals("ward")){
                     result = statement.executeQuery("SELECT * FROM bed");
                     while (result.next()) {
@@ -1010,6 +1027,7 @@ public class WolfHospital{
                         int patient_id = result.getInt("bed.patient_id");
                         System.out.println("Ward Number: " + ward_num + "  Bed Number: " + bed_num + "Patient ID: " + patient_id);
                     }
+                //reports the patients per month
                 } else if(type.toLowerCase().equals("ppm")){
                     System.out.println("start date:");
                     String start = scanner.nextLine();
@@ -1021,7 +1039,7 @@ public class WolfHospital{
                     } catch (SQLException e) {
                         System.out.println("Error getting patients per month");
                     }
-                    
+                //reports the ward usage percentage
                 } else if(type.toLowerCase().equals("wup")){
                     System.out.println("Which ward do you want the percentage usage for? <id>: ");
                     int ward = scanner.nextInt();
@@ -1042,6 +1060,7 @@ public class WolfHospital{
                     } catch (SQLException e) {
                         System.out.println("Error getting percentage for that ward.");
                     }
+                //reports all the patients for a doctor
                 } else if(type.toLowerCase().equals("doctor")){
                     System.out.println("What is the doctor's staff id?");
                     int id = scanner.nextInt();
@@ -1067,7 +1086,7 @@ public class WolfHospital{
 					} catch (SQLException e) {
 						System.out.println("Error getting doctors responsible patients");
 					}
-                    
+                //reports that staff information
                 } else if(type.toLowerCase().equals("staff")){
                     System.out.println("Choose a type: Doctor,  Nurse, Operator.");
                     String staff = scanner.nextLine();
