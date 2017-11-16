@@ -595,7 +595,7 @@ public class WolfHospital{
                         } else if (option.equals("name")) {
                             String name = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE staff SET name='" + name + "' WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET name=" + name + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -612,7 +612,7 @@ public class WolfHospital{
                         }else if (option.equals("gender")) {
                             String gender = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE nurse SET gender='" + gender + "' WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE nurse SET gender=" + gender + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating patient");
                                 break;
@@ -620,7 +620,7 @@ public class WolfHospital{
                         } else if (option.equals("job")) {
                             String job = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE staff SET job_title='" + job + "' WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET job_title=" + job + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -628,7 +628,7 @@ public class WolfHospital{
                         } else if (option.equals("professional")) {
                             String professional = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE staff SET professional_title='" + professional + "' WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET professional_title=" + professional + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -636,7 +636,7 @@ public class WolfHospital{
                         } else if (option.equals("dept")) {
                             String dept = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE staff SET dept='" + dept + "' WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET dept=" + dept + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -644,7 +644,7 @@ public class WolfHospital{
                         } else if (option.equals("contact")) {
                             String contact = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE staff SET contact_info='" + contact + "' WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET contact_info=" + contact + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -666,7 +666,7 @@ public class WolfHospital{
                         } else if (option.equals("name")) {
                             String name = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE staff SET name='" + name + "' WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET name=" + name + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -683,7 +683,7 @@ public class WolfHospital{
                         }else if (option.equals("gender")) {
                             String gender = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE doctor SET gender='" + gender + "' WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE doctor SET gender=" + gender + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating patient");
                                 break;
@@ -691,7 +691,7 @@ public class WolfHospital{
                         } else if (option.equals("job")) {
                             String job = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE staff SET job_title='" + job + "' WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET job_title=" + job + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -699,7 +699,7 @@ public class WolfHospital{
                         } else if (option.equals("professional")) {
                             String professional = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE staff SET professional_title='" + professional + "''' WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET professional_title=" + professional + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -707,7 +707,7 @@ public class WolfHospital{
                         } else if (option.equals("dept")) {
                             String dept = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE staff SET dept='" + dept + "' WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET dept=" + dept + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -715,7 +715,7 @@ public class WolfHospital{
                         } else if (option.equals("contact")) {
                             String contact = scanner.nextLine();
                             try {
-                                statement.executeUpdate("UPDATE staff SET contact_info='" + contact + "' WHERE staff_id=" + id);
+                                statement.executeUpdate("UPDATE staff SET contact_info=" + contact + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
                                 break;
@@ -1039,7 +1039,14 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("doctor")){
                     System.out.println("What is the doctor's staff id?");
                     int id = scanner.nextInt();
-                    scanner.nextLine();
+                    try {
+						result = statement.executeQuery("SELECT patient_id JOIN medical_record ON office_vist.record_num = medical_record.record_num " +
+                    "JOIN check_in_information ON office_visit.check_in_id = check_in_information.check_in_id " +
+                    "LEFT JOIN doctor ON medical_record.res_doctor = doctor.staff_id" +
+                    "WHERE doctor.staff_id = " + id);
+					} catch (SQLException e) {
+						System.out.println("Error getting doctors responsible patients");
+					}
                     
                 } else if(type.toLowerCase().equals("staff")){
                     System.out.println("Choose a type: Doctor,  Nurse, Operator.");
