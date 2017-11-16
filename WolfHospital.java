@@ -1040,10 +1040,16 @@ public class WolfHospital{
                     System.out.println("What is the doctor's staff id?");
                     int id = scanner.nextInt();
                     try {
-						result = statement.executeQuery("SELECT patient_id JOIN medical_record ON office_vist.record_num = medical_record.record_num " +
+						result = statement.executeQuery("SELECT patient_id as patient JOIN medical_record ON office_vist.record_num = medical_record.record_num " +
                     "JOIN check_in_information ON office_visit.check_in_id = check_in_information.check_in_id " +
                     "LEFT JOIN doctor ON medical_record.res_doctor = doctor.staff_id" +
                     "WHERE doctor.staff_id = " + id);
+                    System.out.prinln("" + id + " is in charge of: ");
+                    while (result.next()) {
+                        int patient = result.getInt("patient");
+                        System.out.prinln("" + patient);
+                    }
+                    
 					} catch (SQLException e) {
 						System.out.println("Error getting doctors responsible patients");
 					}
