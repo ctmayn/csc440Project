@@ -1027,13 +1027,18 @@ public class WolfHospital{
                     int ward = scanner.nextInt();
                     scanner.nextLine();
                     try {
-                        result = statement.executeQuery("Select Count(*) as total, capacity FROM ward WHERE patient_id != NULL");
+                        int capacity = 0;
+                        int total = 0;
+
+                        result = statement.executeQuery("Select Count(*) as total FROM ward WHERE patient_id != NULL && ward_num = " + ward);
                         while (result.next()) {
-                            int total = result.getInt("total");
-                            int capacity = result.getInt("ward.capacity");
-                            double print = total / capacity;
-                            System.out.println("Ward percentage usage for: " + ward + " is " + print);
+                            total = result.getInt("total");
                         }
+                        result = statement.executeQuery("Select Count(*) as capacity FROM ward WHERE ward_num = " + ward);
+                        while (result.next()) {
+                            capacity = result.getInt("capacity");
+                        }
+                        System.out.println("Capacity for ward " + ward + " is " + (total * 100 / capacity) + "%");
                     } catch (SQLException e) {
                         System.out.println("Error getting percentage for that ward.");
                     }
@@ -1041,14 +1046,22 @@ public class WolfHospital{
                     System.out.println("What is the doctor's staff id?");
                     int id = scanner.nextInt();
                     try {
-						result = statement.executeQuery("SELECT patient_id as patient JOIN medical_record ON office_vist.record_num = medical_record.record_num " +
+						result = statement.executeQuery("SELECT patient JOIN medical_record ON office_vist.record_num = medical_record.record_num " +
                     "JOIN check_in_information ON office_visit.check_in_id = check_in_information.check_in_id " +
                     "LEFT JOIN doctor ON medical_record.res_doctor = doctor.staff_id" +
                     "WHERE doctor.staff_id = " + id);
                     System.out.println("" + id + " is in charge of: ");
                     while (result.next()) {
-                        int patient = result.getInt("patient");
-                        System.out.println("" + patient);
+                        int patient = result.getInt("patient.patient_id");
+                        String status = result.getString("patient.status");
+                        String gender = result.getString("patient.gender");
+                        int ssn = result.getInt("patient.ssn");
+                        String name = result.getString("patient.name");
+                        String dob = result.getString("patient.DOB");
+                        int age = result.getInt("patient.age");
+                        String contact = result.getString("patient.contact_info");
+                        
+                        System.out.println("patient id: " + patient + ", status: " + status + ", gender: " + gender + ", ssn: " + ssn + ", name: " + name + ", dob: " + dob + ", age: " + age + ", contact: " + contact);
                     }
                     
 					} catch (SQLException e) {
