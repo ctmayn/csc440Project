@@ -235,6 +235,7 @@ public class WolfHospital{
                     try {
                         System.out.println("social security number: ");
                         social = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.println("status: ");
                         status = scanner.nextLine();
                         System.out.println("Gender");
@@ -245,6 +246,7 @@ public class WolfHospital{
                         dob = scanner.nextLine();
                         System.out.println("Age:");
                         age = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.println("Contact Info: ");
                         contact = scanner.nextLine();
                     } catch (Exception e) {
@@ -271,6 +273,7 @@ public class WolfHospital{
                         name = scanner.nextLine();
                         System.out.println("Age: ");
                         age = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.println("gender: ");
                         gender = scanner.nextLine();
                         System.out.println("Job Title: ");
@@ -289,7 +292,7 @@ public class WolfHospital{
                     }
                     try {
 			            statement.executeUpdate("START TRANSACTION;");
-                        statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '"+ gender + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
+                        statement.executeUpdate("INSERT INTO staff(name ,age, gender, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '"+ gender + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
                         result.next();
                         int id = result.getInt("max_id");
                         statement.executeUpdate("INSERT INTO doctor(staff_id, specialist) VALUES ('" + id + "', '" + specialist + "')");
@@ -312,6 +315,7 @@ public class WolfHospital{
                         name = scanner.nextLine();
                         System.out.println("Age: ");
                         age = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.println("gender: ");
                         gender = scanner.nextLine();
                         System.out.println("Job Title: ");
@@ -328,7 +332,7 @@ public class WolfHospital{
 					}
 					try {
 						statement.executeUpdate("START TRANSACTION;");
-                        statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '"+ gender + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
+                        statement.executeUpdate("INSERT INTO staff(name ,age, gender, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '"+ gender + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
                         result = statement.executeQuery("SELECT MAX(id) AS max_id FROM staff");
                         result.next();
                         int id = result.getInt("max_id");
@@ -353,6 +357,7 @@ public class WolfHospital{
                         name = scanner.nextLine();
                         System.out.println("Age: ");
                         age = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.println("gender: ");
                         gender = scanner.nextLine();
                         System.out.println("Job Title: ");
@@ -368,7 +373,7 @@ public class WolfHospital{
 						break;
 					}
 					try {
-						statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '"+ gender + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
+						statement.executeUpdate("INSERT INTO staff(name ,age, gender, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '"+ gender + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
                         result = statement.executeQuery("SELECT MAX(id) AS max_id FROM staff");
                         result.next();
                         int id = result.getInt("max_id");
@@ -384,10 +389,13 @@ public class WolfHospital{
 					try {
                         System.out.println("charges per day: ");
                         charges = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.println("responsible nurse: ");
                         nurse = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.println("capacity: ");
                         capacity = scanner.nextInt();
+                        scanner.nextLine();
 					} catch (Exception e) {
 						System.out.println("Invalid input.");
 						break;
@@ -402,9 +410,11 @@ public class WolfHospital{
                     int patient;
 					try {
 						System.out.println("Ward Numer: ");
-						ward = scanner.nextInt();
+                        ward = scanner.nextInt();
+                        scanner.nextLine();
 						System.out.println("Patient ID:");
-						patient = scanner.nextInt();
+                        patient = scanner.nextInt();
+                        scanner.nextLine();
 					} catch (Exception e) {
 						System.out.println("Invalid Input.");
 						break;
@@ -425,6 +435,7 @@ public class WolfHospital{
                 if(type.toLowerCase().equals("patient")){
                     System.out.println("Patient ID for update: ");
                     int id = scanner.nextInt();
+                    scanner.nextLine();
                     while (true) {
                         
                         System.out.println("Options for patient update: quit, social, status, gender, name, dob, age, contact");
@@ -471,6 +482,7 @@ public class WolfHospital{
                             }
                         }else if (option.equals("age")) {
                             int age = scanner.nextInt();
+                            scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE patient SET age=" + age + " WHERE patient_id=" + id);
                             } catch (SQLException e) {
@@ -494,6 +506,7 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("doctor")){
                     System.out.println("doctor/staff ID for update: ");
                     int id = scanner.nextInt();
+                    scanner.nextLine();
                     while (true) {
                         System.out.println("Options for doctor/staff update: quit, name, age, job, professional, dept, contact, specialist");
                         String option = scanner.nextLine();
@@ -509,6 +522,7 @@ public class WolfHospital{
                             }
                         } else if (option.equals("age")) {
                             int age = scanner.nextInt();
+                            scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET age=" + age + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -571,6 +585,7 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("nurse")){
                     System.out.println("nurse/staff ID for update: ");
                     int id = scanner.nextInt();
+                    scanner.nextLine();
                     while (true) {
                         System.out.println("Options for nurse/staff update: quit, name, age, job, professional, dept, contact");
                         String option = scanner.nextLine();
@@ -586,6 +601,7 @@ public class WolfHospital{
                             }
                         } else if (option.equals("age")) {
                             int age = scanner.nextInt();
+                            scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET age=" + age + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -640,6 +656,7 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("operator")){
                     System.out.println("Operator/staff ID for update: ");
                     int id = scanner.nextInt();
+                    scanner.nextLine();
                     while (true) {
                         System.out.println("Options for Operator/staff update: quit, name, age, job, professional, dept, contact");
                         String option = scanner.nextLine();
@@ -655,6 +672,7 @@ public class WolfHospital{
                             }
                         } else if (option.equals("age")) {
                             int age = scanner.nextInt();
+                            scanner.nextLine();
                             try {
                                 statement.executeUpdate("UPDATE staff SET age=" + age + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
@@ -708,12 +726,14 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("wards")){
                     System.out.println("Ward number for update: ");
                     int ward = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.println("Options for ward update: quit, charges, responsible, capacity");
                     String option = scanner.nextLine();
                     if (option.equals("quit")) {
                         break;
                     } else if (option.equals("charges")) {
                         int charges = scanner.nextInt();
+                        scanner.nextLine();
                         try {
                                 statement.executeUpdate("UPDATE ward SET charges_per_day=" + charges + " WHERE ward_num=" + ward);
                             } catch (SQLException e) {
@@ -722,6 +742,7 @@ public class WolfHospital{
                             }
                     } else if (option.equals("responsible")) {
                         int responsible = scanner.nextInt();
+                        scanner.nextLine();
                         try {
                                 statement.executeUpdate("UPDATE ward SET res_nurse=" + responsible + " WHERE ward_num=" + ward);
                             } catch (SQLException e) {
@@ -730,6 +751,7 @@ public class WolfHospital{
                             }
                     } else if (option.equals("capacity")) {
                         int capacity = scanner.nextInt();
+                        scanner.nextLine();
                         try {
                                 statement.executeUpdate("UPDATE ward SET capacity=" + capacity + " WHERE ward_num=" + ward);
                             } catch (SQLException e) {
@@ -742,14 +764,17 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("bed")){
                     System.out.println("Bed number for update: ");
                     int bed = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.println("ward number for bed update:");
                     int ward = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.println("Options for bed update: quit, patient");
                     String option = scanner.nextLine();
                     if (option.equals("quit")) {
                         break;
                     } else if (option.equals("patient")) {
                         int patient = scanner.nextInt();
+                        scanner.nextLine();
                         try {
                                 statement.executeUpdate("UPDATE bed SET patient_id=" + patient + " WHERE bed_num=" + bed + "AND WHERE ward_num=" + ward);
                             } catch (SQLException e) {
@@ -769,6 +794,7 @@ public class WolfHospital{
                 if(type.toLowerCase().equals("patient")){
                     System.out.println("Patient id for deletion:");
                     int id = scanner.nextInt();
+                    scanner.nextLine();
                     try {
                         statement.executeUpdate("DELETE FROM patient WHERE patient_id=" + id);
                     } catch (SQLException e) {
@@ -778,6 +804,7 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("doctor")){
                     System.out.println("doctor id for deletion:");
                     int id = scanner.nextInt();
+                    scanner.nextLine();
                      try {
                         statement.executeUpdate("DELETE FROM doctor WHERE doctor_id=" + id);
                     } catch (SQLException e) {
@@ -787,6 +814,7 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("nurse")){
                     System.out.println("nurse id for deletion:");
                     int id = scanner.nextInt();
+                    scanner.nextLine();
                      try {
                         statement.executeUpdate("DELETE FROM nurse WHERE nurse_id=" + id);
                     } catch (SQLException e) {
@@ -795,6 +823,7 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("operator")){
                     System.out.println("operator id for deletion:");
                     int id = scanner.nextInt();
+                    scanner.nextLine();
                     try {
                         statement.executeUpdate("DELETE FROM operator WHERE operator_id=" + id);
                     } catch (SQLException e) {
@@ -804,6 +833,7 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("wards")){
                     System.out.println("ward num for deletion:");
                     int id = scanner.nextInt();
+                    scanner.nextLine();
                     try {
                         statement.executeUpdate("DELETE FROM ward WHERE ward_num=" + id);
                     } catch (SQLException e) {
@@ -813,8 +843,10 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("bed")){
                     System.out.println("bed id for deletion:");
                     int bedid = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.println("ward num for deletion of bed");
                     int wardid = scanner.nextInt();
+                    scanner.nextLine();
                     try {
                         statement.executeUpdate("DELETE FROM bed WHERE bed_num=" + bedid + "AND WHERE ward_num=" + wardid);
                     } catch (SQLException e) {
@@ -830,10 +862,13 @@ public class WolfHospital{
                 String startdate = scanner.nextLine();
                 System.out.println("bed number:");
                 int bed = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println("ward number:");
                 int ward= scanner.nextInt();
+                scanner.nextLine();
                 System.out.println("patient id number:");
                 int patient= scanner.nextInt();
+                scanner.nextLine();
                 try {
                     statement.executeUpdate("INSERT INTO check_in_information( start_date, end_date, bed_num, ward_num) VALUES ('" + startdate + "', NULL,'" + bed + "','" + ward + "')'");
                     result = statement.executeQuery("SELECT MAX(id) AS max_id FROM check_in_information");
@@ -847,6 +882,7 @@ public class WolfHospital{
             } else if(action.toLowerCase().equals("check-out")){
                 System.out.println("Office Visit ID:");
                 int id = scanner.nextInt();
+                scanner.nextLine();
 
                 System.out.println("Check-out date (YYYY-MM-DD): ");
                 String enddate = scanner.nextLine();
@@ -854,6 +890,7 @@ public class WolfHospital{
                 System.out.println("Medical Record Info");
                 System.out.println("Responsible Doctor ID:");
                 int doctor_id = scanner.nextInt();
+                scanner.nextLine();
 
                 System.out.println("Diagnosis Details:");
                 String diagnosis_details = scanner.nextLine();
@@ -891,6 +928,7 @@ public class WolfHospital{
         
                         System.out.println("Specialist:");
                         int specialist_id = scanner.nextInt();
+                        scanner.nextLine();
         
                         System.out.println("Test Results:");
                         String test_results = scanner.nextLine();
@@ -909,10 +947,13 @@ public class WolfHospital{
             } else if(action.toLowerCase().equals("reserve")){
                 System.out.println("Patient id for reserving bed:");
                 int patid = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println("bed num for reservation:");
                 int bednum = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println("ward num for reservation");
                 int wardnum = scanner.nextInt();
+                scanner.nextLine();
                 try {
                     statement.executeUpdate("UPDATE bed patient_id=" + patid + "WHERE bed_num =" + bednum + "AND WHERE ward_num=" + wardnum + "AND patient_id=NULL"); 
                 } catch (SQLException e) {
@@ -921,8 +962,10 @@ public class WolfHospital{
             } else if(action.toLowerCase().equals("release")){
                 System.out.println("bed num for release:");
                 int bednum = scanner.nextInt();
+                scanner.nextLine();
                 System.out.println("ward num for release");
                 int wardnum = scanner.nextInt();
+                scanner.nextLine();
                 try {
                     statement.executeUpdate("UPDATE bed patient_id=NULL WHERE bed_num =" + bednum + "AND WHERE ward_num=" + wardnum); 
                 } catch (SQLException e) {
@@ -934,6 +977,7 @@ public class WolfHospital{
                 if(type.toLowerCase().equals("history")){
                     System.out.println("What is the patient's id?");
                     int id = scanner.nextInt();
+                    scanner.nextLine();
 
                     System.out.println("Beginning Check-in Date (YYYY-MM-DD):");
                     String startdate = scanner.nextLine();
@@ -979,6 +1023,7 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("wup")){
                     System.out.println("Which ward do you want the percentage usage for? <id>: ");
                     int ward = scanner.nextInt();
+                    scanner.nextLine();
                     try {
                         result = statement.executeQuery("Select Count(*) as total, capacity FROM ward WHERE patient_id != NULL");
                         while (result.next()) {
@@ -993,6 +1038,7 @@ public class WolfHospital{
                 } else if(type.toLowerCase().equals("doctor")){
                     System.out.println("What is the doctor's staff id?");
                     int id = scanner.nextInt();
+                    scanner.nextLine();
                     
                 } else if(type.toLowerCase().equals("staff")){
                     System.out.println("Choose a type: Doctor,  Nurse, Operator.");
