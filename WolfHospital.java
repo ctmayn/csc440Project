@@ -94,6 +94,7 @@ public class WolfHospital{
             "id INT AUTO_INCREMENT PRIMARY KEY, "  +
             "name VARCHAR(128) NOT NULL, " +
             "age INT NOT NULL, " +
+            "gender VARCHAR(128)" + 
             "job_title VARCHAR(128) NOT NULL, "  +
             "professional_title VARCHAR(128) NOT NULL, "  +
             "dept VARCHAR(128) NOT NULL, " +
@@ -215,7 +216,7 @@ public class WolfHospital{
             "\n<Check-out> patients." + 
             "\n<Reserve> beds for patients." + 
             "\n<Release> reservations for beds for patients." + 
-            "\nGerneate <reports>." + 
+            "\nGenerate <reports>." + 
             "\n<Quit>.");
             String action = scanner.nextLine();
             if(action.toLowerCase().equals("quit")){
@@ -288,7 +289,7 @@ public class WolfHospital{
                     }
                     try {
 			            statement.executeUpdate("START TRANSACTION;");
-                        statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
+                        statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '"+ gender + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
                         result.next();
                         int id = result.getInt("max_id");
                         statement.executeUpdate("INSERT INTO doctor(staff_id, specialist) VALUES ('" + id + "', '" + specialist + "')");
@@ -327,7 +328,7 @@ public class WolfHospital{
 					}
 					try {
 						statement.executeUpdate("START TRANSACTION;");
-                        statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
+                        statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '"+ gender + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
                         result = statement.executeQuery("SELECT MAX(id) AS max_id FROM staff");
                         result.next();
                         int id = result.getInt("max_id");
@@ -367,7 +368,7 @@ public class WolfHospital{
 						break;
 					}
 					try {
-						statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
+						statement.executeUpdate("INSERT INTO staff(name ,age, job_title, professional_title, dept, contact_info) VALUES ('" + name + "', '" + age + "', '"+ gender + "', '" + job + "', '" + professional + "', '" + department + "', '" + contact + "')");
                         result = statement.executeQuery("SELECT MAX(id) AS max_id FROM staff");
                         result.next();
                         int id = result.getInt("max_id");
@@ -514,6 +515,14 @@ public class WolfHospital{
                                 System.out.println("Error updating staff");
                                 break;
                             }
+                        }else if (option.equals("gender")) {
+                            String gender = scanner.nextLine();
+                            try {
+                                statement.executeUpdate("UPDATE doctor SET gender=" + gender + " WHERE staff_id=" + id);
+                            } catch (SQLException e) {
+                                System.out.println("Error updating patient");
+                                break;
+                            }
                         } else if (option.equals("job")) {
                             String job = scanner.nextLine();
                             try {
@@ -583,6 +592,14 @@ public class WolfHospital{
                                 System.out.println("Error updating staff");
                                 break;
                             }
+                        }else if (option.equals("gender")) {
+                            String gender = scanner.nextLine();
+                            try {
+                                statement.executeUpdate("UPDATE nurse SET gender=" + gender + " WHERE staff_id=" + id);
+                            } catch (SQLException e) {
+                                System.out.println("Error updating patient");
+                                break;
+                            }
                         } else if (option.equals("job")) {
                             String job = scanner.nextLine();
                             try {
@@ -642,6 +659,14 @@ public class WolfHospital{
                                 statement.executeUpdate("UPDATE staff SET age=" + age + " WHERE staff_id=" + id);
                             } catch (SQLException e) {
                                 System.out.println("Error updating staff");
+                                break;
+                            }
+                        }else if (option.equals("gender")) {
+                            String gender = scanner.nextLine();
+                            try {
+                                statement.executeUpdate("UPDATE doctor SET gender=" + gender + " WHERE staff_id=" + id);
+                            } catch (SQLException e) {
+                                System.out.println("Error updating patient");
                                 break;
                             }
                         } else if (option.equals("job")) {
@@ -973,41 +998,44 @@ public class WolfHospital{
                     System.out.println("Choose a type: Doctor,  Nurse, Operator.");
                     String staff = scanner.nextLine();
                     if(staff.toLowerCase().equals("doctor")){
-                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info, doctor.specialist FROM doctor INNER JOIN staff ON doctor.staff_id = staff.id");
+                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.gender, staff.job_title, staff.professional_title, staff.dept, staff.contact_info, doctor.specialist FROM doctor INNER JOIN staff ON doctor.staff_id = staff.id");
                         while (result.next()) {
                             int id = result.getInt("staff.id");
                             String name = result.getString("staff.name");
                             int age = result.getInt("staff.age");
+                            String gender = result.getString("staff.gender");
                             String job_title = result.getString("staff.job_title");
                             String professional_title = result.getString("staff.professional_title");
                             String dept = result.getString("staff.dept");
                             String contact_info = result.getString("staff.contact_info");
                             String specialist = result.getString("doctor.specialist");
-                            System.out.println("ID: " + id + "  Name: " + name + "  Age: " + age + "  Job Title: " + job_title + " Professional Title: " + professional_title + "  Department: " + dept + "  Contact Info: " + contact_info + "  Specialist:  " + specialist );
+                            System.out.println("ID: " + id + "  Name: " + name + "  Age: " + age + "', '"+ gender + "  Job Title: " + job_title + " Professional Title: " + professional_title + "  Department: " + dept + "  Contact Info: " + contact_info + "  Specialist:  " + specialist );
                         }
                     } else if(staff.toLowerCase().equals("nurse")){
-                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info FROM nurse INNER JOIN staff ON nurse.staff_id = staff.id");
+                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.gender, staff.job_title, staff.professional_title, staff.dept, staff.contact_info FROM nurse INNER JOIN staff ON nurse.staff_id = staff.id");
                         while (result.next()) {
                             int id = result.getInt("staff.id");
                             String name = result.getString("staff.name");
                             int age = result.getInt("staff.age");
+                            String gender = result.getString("staff.gender");
                             String job_title = result.getString("staff.job_title");
                             String professional_title = result.getString("staff.professional_title");
                             String dept = result.getString("staff.dept");
                             String contact_info = result.getString("staff.contact_info");
-                            System.out.println("ID: " + id + "  Name: " + name + "  Age: " + age + "  Job Title: " + job_title + " Professional Title: " + professional_title + "  Department: " + dept + "  Contact Info: " + contact_info);
+                            System.out.println("ID: " + id + "  Name: " + name + "  Age: " + age + "', '"+ gender + "  Job Title: " + job_title + " Professional Title: " + professional_title + "  Department: " + dept + "  Contact Info: " + contact_info);
                         }
                     } else if(staff.toLowerCase().equals("operator")){
-                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.job_title, staff.professional_title, staff.dept, staff.contact_info FROM nurse INNER JOIN staff ON operator.staff_id = staff.id");
+                        result = statement.executeQuery("SELECT staff.id, staff.name, staff.age, staff.gender, staff.job_title, staff.professional_title, staff.dept, staff.contact_info FROM nurse INNER JOIN staff ON operator.staff_id = staff.id");
                         while (result.next()) {
                             int id = result.getInt("staff.id");
                             String name = result.getString("staff.name");
                             int age = result.getInt("staff.age");
+                            String gender = result.getString("staff.gender");
                             String job_title = result.getString("staff.job_title");
                             String professional_title = result.getString("staff.professional_title");
                             String dept = result.getString("staff.dept");
                             String contact_info = result.getString("staff.contact_info");
-                            System.out.println("ID: " + id + "  Name: " + name + "  Age: " + age + "  Job Title: " + job_title + " Professional Title: " + professional_title + "  Department: " + dept + "  Contact Info: " + contact_info);
+                            System.out.println("ID: " + id + "  Name: " + name + "  Age: "  + age + "', '"+ gender + "  Job Title: " + job_title + " Professional Title: " + professional_title + "  Department: " + dept + "  Contact Info: " + contact_info);
                         }
                     } else {
                         System.out.println("Not a staff member.");
