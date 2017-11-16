@@ -402,7 +402,7 @@ public class WolfHospital{
 						break;
 					}
 					try {
-						statement.executeUpdate("INSERT INTO ward( charges_per_day, res_nurse, capacity) VALUES ('" + charges + "', '" + nurse + "', '" + capacity + ")");
+						statement.executeUpdate("INSERT INTO ward( charges_per_day, res_nurse, capacity) VALUES ('" + charges + "', '" + nurse + "', '" + capacity + "')");
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
