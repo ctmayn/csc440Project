@@ -725,7 +725,7 @@ public class WolfHospital{
                             System.out.println("Invalid Input.");
                         }
                     }
-                } else if(type.toLowerCase().equals("wards")){
+                } else if(type.toLowerCase().equals("ward")){
                     System.out.println("Ward number for update: ");
                     int ward = scanner.nextInt();
                     scanner.nextLine();
