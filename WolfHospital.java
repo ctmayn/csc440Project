@@ -1044,10 +1044,10 @@ public class WolfHospital{
                     "JOIN check_in_information ON office_visit.check_in_id = check_in_information.check_in_id " +
                     "LEFT JOIN doctor ON medical_record.res_doctor = doctor.staff_id" +
                     "WHERE doctor.staff_id = " + id);
-                    System.out.prinln("" + id + " is in charge of: ");
+                    System.out.println("" + id + " is in charge of: ");
                     while (result.next()) {
                         int patient = result.getInt("patient");
-                        System.out.prinln("" + patient);
+                        System.out.println("" + patient);
                     }
                     
 					} catch (SQLException e) {
